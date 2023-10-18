@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="node_modules/leaflet-sidebar-v2/css/leaflet-sidebar.min.css">
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="map.css">
+    <title>Document</title>
+</head>
+<body>
+    <section id="map-container">
+        <div id="map"></div>
+    </section>
+    <div id="sidebar" class="leaflet-sidebar collapsed">
+        <!-- Pestañas / Tabs -->
+        <div class="leaflet-sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#tab1" role="tab">+</i></a></li>
+                <li><a href="#tab2" role="tab">+</i></a></li> <!-- Puedes cambiar 'fa-star' al ícono que desees -->
+            </ul>
+        </div>
+    
+        <!-- Contenidos / Panes -->
+        <div class="leaflet-sidebar-content">
+            <div class="leaflet-sidebar-pane" id="tab1">
+                <span class="leaflet-sidebar-close">
+                    -
+                </span>
+                <h2>Titulo de Ejemplo<i class="fas fa-user"></i> </h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, cupiditate quis delectus enim fuga id? Debitis animi sed ullam ipsam doloribus beatae provident quisquam. Laborum nisi aliquid corrupti maiores ab.</p>
+            </div>
+    
+            <div class="leaflet-sidebar-pane" id="tab2">
+                <span class="leaflet-sidebar-close">
+                    - <!-- Usamos un ícono de cierre de Font Awesome -->
+                </span>
+                <h2>Otro Título</h2>
+                <!-- Aquí va el contenido de la segunda pestaña -->
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="node_modules/leaflet-sidebar-v2/js/leaflet-sidebar.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>
