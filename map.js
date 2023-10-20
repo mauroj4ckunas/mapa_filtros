@@ -46,3 +46,12 @@ function addMarkerUser() {
 
 addMarkerUser();
 userGroup.addTo(map);
+
+let panelContent = {
+    id: 'userinfo',                     // UID, used to access the panel
+    tab: '<i class="fa fa-search"></i>',  // content can be passed as HTML string,
+    pane: '<p>Que ondqa perro</p>',      // DOM elements can be passed, too
+    title: 'Your Profile',              // an optional pane header
+    position: 'top'                  // optional vertical alignment, defaults to 'top'
+};
+sidebar.addPanel(panelContent);
