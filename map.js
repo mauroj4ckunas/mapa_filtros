@@ -24,3 +24,25 @@ document.querySelectorAll('.leaflet-sidebar-close').forEach(closeButton => {
         sidebar.close();
     });
 });
+
+function onMapClick(e) {
+    console.log( e.latlng);
+}
+
+map.on('click', onMapClick);
+
+const userGroup = L.layerGroup();
+
+function addMarkerUser() {
+    const mark1 = L.marker([-34.7407, -59.6422]);
+    userGroup.addLayer(mark1);
+    const mark2 = L.marker([-33.6502, -61.9383]);
+    userGroup.addLayer(mark2);
+    const mark3 = L.marker([-32.5826, -65.6950]);
+    userGroup.addLayer(mark3);
+    const mark4 = L.marker([-37.3851, -64.7718]);
+    userGroup.addLayer(mark4);
+}
+
+addMarkerUser();
+userGroup.addTo(map);
