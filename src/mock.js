@@ -35,55 +35,78 @@ export const localidades = [
     { nombre: 'Las Lomitas', clave: 'las_lomitas' },
     { nombre: 'San Juan', clave: 'san_juan' },
     { nombre: 'Neuquén', clave: 'neuquen' },
+    { nombre: 'Mar Del Plata', clave: 'mar_del_plata' },
+    { nombre: 'San Nicolás de Los Arroyos', clave: 'san_nicolas_de_los_arroyos' },
 ];
 
 export const data = [
     {
         coordinate: [-34.74317133345502, -58.38993950186129],
-        provincia: 'buenos_aires',
-        localidad: 'banfield',
+        provincia: 'Buenos Aires',
+        localidad: 'Banfield',
         title: 'Proyecto Mas',
         description: 'Descripcion del Proyecto Max'
     },
     {
+        coordinate: [-38.04394750726469, -57.59144060643585],
+        provincia: 'Buenos Aires',
+        localidad: 'Mar Del Plata',
+        title: 'Censos',
+        description: 'Descripcion del Censos'
+    },
+    {
+        coordinate: [-38.08535808505526, -57.595935406967676],
+        provincia: 'Buenos Aires',
+        localidad: 'Mar Del Plata',
+        title: 'COMUNIDADES DEL SUR - Don Orione',
+        description: 'Descripcion del COMUNIDADES DEL SUR - Don Orione'
+    },
+    {
+        coordinate: [-33.340772428131224, -60.22107941915559],
+        provincia: 'Buenos Aires',
+        localidad: 'San Nicolas De Los Arroyos',
+        title: 'La Casita de Don Orione Un hogar para todos',
+        description: 'Descripcion del Proyecto Max'
+    },
+    {
         coordinate: [-29.14662871017508, -59.63440941489629],
-        provincia: 'santa_fe',
-        localidad: 'reconquista',
+        provincia: 'Santa Fe',
+        localidad: 'Reconquista',
         title: 'LOS CORTADEÑOS',
         description: 'Descripcion del LOS CORTADEÑOS'
     },
     {
         coordinate: [-27.473908430391607, -59.01214432071524],
-        provincia: 'chaco',
-        localidad: 'resistencia',
+        provincia: 'Chaco',
+        localidad: 'Resistencia',
         title: 'CORAZÓN AMIGO',
         description: 'Descripcion del CORAZÓN AMIGO'
     },
     {
         coordinate: [-23.812945916463313, -64.79712449468718],
-        provincia: 'jujuy',
-        localidad: 'libertador_general_san_martín',
+        provincia: 'Jujuy',
+        localidad: 'Libertador General San Martín',
         title: 'CENTRO LIBERTAD',
         description: 'Descripcion del CENTRO LIBERTAD'
     },
     {
         coordinate: [-24.707747650774493, -60.58868413449087],
         provincia: 'Formosa',
-        localidad: 'las_lomitas',
+        localidad: 'Las Lomitas',
         title: 'ASOCIACIÓN PARA LA PROMOCIÓN DE LA CULTURA Y EL DESARROLLO',
         description: 'Descripcion del ASOCIACIÓN PARA LA PROMOCIÓN DE LA CULTURA Y EL DESARROLLO'
     },
     {
         coordinate: [-31.54069031461898, -68.52747512168037],
-        provincia: 'san_juan',
-        localidad: 'san_juan',
+        provincia: 'San Juan',
+        localidad: 'San Juan',
         title: 'Refugio Madre Teresa de Calculta',
         description: 'Descripcion del Refugio Madre Teresa de Calculta'
     },
     {
         coordinate: [-38.96534906483482, -68.06152514521344],
-        provincia: 'neuquen',
-        localidad: 'neuquen',
+        provincia: 'Neuquén',
+        localidad: 'Neuquén',
         title: 'Refugio Cura Brochero',
         description: 'Descripcion del Refugio Cura Brochero'
     },

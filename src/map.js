@@ -15,17 +15,11 @@ const setMap = () => {
 setMap();
 
 let sidebar = L.control.sidebar({
-    autopan: false,       // whether to maintain the centered map point when opening the sidebar
-    closeButton: true,    // whether t add a close button to the panes
-    container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
-    position: 'left',     // left or right
+    autopan: false,       
+    closeButton: true,    
+    container: 'sidebar', 
+    position: 'left',     
 }).addTo(map);
-
-document.querySelectorAll('.leaflet-sidebar-close').forEach(closeButton => {
-    closeButton.addEventListener('click', () => {
-        sidebar.close();
-    });
-});
 
 const markerGroup = L.layerGroup();
 function addMarker(key, value) {
@@ -52,14 +46,58 @@ function addMarker(key, value) {
 addMarker('all');
 
 const filtroProvincias = () => provincias.reduce((acu, act) => {
-    return acu += `<option value="${act.clave}">${act.nombre}</option>`;
+    return acu += `<option value="${act.nombre}">${act.nombre}</option>`;
 }, '')
 
 const filtroLocalidades = () => localidades.reduce((acu, act) => {
-    return acu += `<option value="${act.clave}">${act.nombre}</option>`;
+    return acu += `<option value="${act.nombre}">${act.nombre}</option>`;
 }, '')
 
+const agregarPanelFiltro = (sidebar, opcion, filtro) => {
+
+    const dataFiltrada = data.filter(d => d[filtro] === opcion.nombre);
+    const items = dataFiltrada.reduce((acu, act) => {
+        return acu += `
+            <tr>
+                <td>${act.title}</td>
+                <td>${act.provincia}</td>
+                <td>${act.localidad}</td>
+            </tr>
+        `
+    }, "");
+
+    const list = `
+        <div class="container my-4">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Provincia</th>
+                    <th scope="col">Localidad</th>
+                </tr>
+                </thead>
+                <tbody>
+                    ${items}
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    const panelFiltro = {
+        id: 'panelFiltro',
+        tab: '<i class="fa fa-check"></i>',
+        pane: list,
+        title: `Ubicaciones según: ${opcion.nombre}`,
+        position: 'top',
+    };
+
+    sidebar.addPanel(panelFiltro);
+}
+
 function filtros(sidebar) {
+
+    let opcionElegida = '';
+    let filtroElegida = '';
 
     const inputs = `
         <div class="container h-100 w-100 my-4">
@@ -77,18 +115,25 @@ function filtros(sidebar) {
                     ${filtroLocalidades()}
                 </select>
             </div>
-            <div class="row mt-10">
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-info float-right" id="reiniciarFiltro">
-                        Reiniciar filtros
-                    </button>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-sm">
+                        <button type="button" class="btn btn-info" id="verSegunFiltro">
+                            Ver según filtro
+                        </button>
+                    </div>
+                    <div class="col-sm">
+                        <button type="button" class="btn btn-info" id="recargarFiltro">
+                            Recargar filtros
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     `;
 
     let panelContent = {
-        id: 'userinfo',
+        id: 'panelContent',
         tab: '<i class="fa fa-search"></i>',
         pane: inputs,
         title: 'Aplicar filtros',
@@ -96,18 +141,30 @@ function filtros(sidebar) {
     };
 
     sidebar.addPanel(panelContent);
-
     document.querySelector("#selectProvincias").addEventListener("change", function (e) {
         const seleccionada = e.target.value;
+        opcionElegida = provincias.find(p => p.nombre === seleccionada);
+        filtroElegida = 'provincia';
         addMarker(seleccionada, 'provincia');
     });
 
     document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
         const seleccionada = e.target.value;
+        opcionElegida = localidades.find(l => l.nombre === seleccionada);
+        filtroElegida = 'localidad';
         addMarker(seleccionada, 'localidad');
     });
 
-    document.querySelector("#reiniciarFiltro").addEventListener("click", e => location.reload());
+    document.querySelector("#recargarFiltro").addEventListener("click", e => location.reload());
+
+    document.querySelector("#verSegunFiltro").addEventListener("click", e => {
+        if (opcionElegida && filtroElegida) {
+            sidebar.removePanel("panelFiltro");
+            agregarPanelFiltro(sidebar, opcionElegida, filtroElegida);
+        } else {
+            alert("Debe seleccionar un filtro primero")
+        }
+    });
 
 }
 
