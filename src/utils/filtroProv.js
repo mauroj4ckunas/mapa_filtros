@@ -1,0 +1,27 @@
+
+export const provincias = [
+    { info: 'Buenos Aires', clave: 'buenos_aires' },
+    { info: 'CABA', clave: 'caba' },
+    { info: 'Catamarca', clave: 'catamarca' },
+    { info: 'Chaco', clave: 'chaco' },
+    { info: 'Chubut', clave: 'chubut' },
+    { info: 'Córdoba', clave: 'cordoba' },
+    { info: 'Corrientes', clave: 'corrientes' },
+    { info: 'Entre Ríos', clave: 'entre_rios' },
+    { info: 'Formosa', clave: 'formosa' },
+    { info: 'Jujuy', clave: 'jujuy' },
+    { info: 'La Pampa', clave: 'la_pampa' },
+    { info: 'La Rioja', clave: 'la_rioja' },
+    { info: 'Mendoza', clave: 'mendoza' },
+    { info: 'Misiones', clave: 'misiones' },
+    { info: 'Neuquén', clave: 'neuquen' },
+    { info: 'Río Negro', clave: 'rio_negro' },
+    { info: 'Salta', clave: 'salta' },
+    { info: 'San Juan', clave: 'san_juan' },
+    { info: 'San Luis', clave: 'san_luis' },
+    { info: 'Santa Cruz', clave: 'santa_cruz' },
+    { info: 'Santa Fe', clave: 'santa_fe' },
+    { info: 'Santiago del Estero', clave: 'santiago_del_estero' },
+    { info: 'Tierra del Fuego', clave: 'tierra_del_fuego' },
+    { info: 'Tucumán', clave: 'tucuman' }
+];

@@ -1,4 +1,7 @@
-import { provincias, localidades, data } from "./mock.js";
+import { provincias } from "./utils/filtroProv.js";
+import { localidades } from "./utils/filtroLocalidad.js";
+import { tipoOrganizacion } from "./utils/filtroTipo.js";
+import { data } from "./utils/mock.js";
 
 const map = L.map('map', {zoomControl: false});
 const setMap = () => {
@@ -46,16 +49,20 @@ function addMarker(key, value) {
 addMarker('all');
 
 const filtroProvincias = () => provincias.reduce((acu, act) => {
-    return acu += `<option value="${act.nombre}">${act.nombre}</option>`;
+    return acu += `<option value="${act.info}">${act.info}</option>`;
 }, '')
 
 const filtroLocalidades = () => localidades.reduce((acu, act) => {
-    return acu += `<option value="${act.nombre}">${act.nombre}</option>`;
+    return acu += `<option value="${act.info}">${act.info}</option>`;
+}, '')
+
+const filtroTipos = () => tipoOrganizacion.reduce((acu, act) => {
+    return acu += `<option value="${act.clave}">${act.info}</option>`;
 }, '')
 
 const agregarPanelFiltro = (sidebar, opcion, filtro) => {
 
-    const dataFiltrada = data.filter(d => d[filtro] === opcion.nombre);
+    const dataFiltrada = data.filter(d => d[filtro] === opcion.clave);
     const items = dataFiltrada.reduce((acu, act) => {
         return acu += `
             <tr>
@@ -71,7 +78,7 @@ const agregarPanelFiltro = (sidebar, opcion, filtro) => {
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Nombre</th>
+                    <th scope="col">info</th>
                     <th scope="col">Provincia</th>
                     <th scope="col">Localidad</th>
                 </tr>
@@ -87,7 +94,7 @@ const agregarPanelFiltro = (sidebar, opcion, filtro) => {
         id: 'panelFiltro',
         tab: '<i class="fa fa-check"></i>',
         pane: list,
-        title: `Ubicaciones según: ${opcion.nombre}`,
+        title: `Ubicaciones según: ${opcion.info}`,
         position: 'top',
     };
 
@@ -104,15 +111,22 @@ function filtros(sidebar) {
             <div class="mb-3">
                 <label for="selectProvincias" class="form-label">Por Provincia</label>
                 <select class="custom-select" id="selectProvincias">
-                    <option selected>Elije una provincia</option>
+                    <option selected class="d-none">Elije una provincia</option>
                     ${filtroProvincias()}
                 </select>
             </div>
             <div class="mb-3">
                 <label for="selectLocalidades" class="form-label">Por Localidad</label>
                 <select class="custom-select" id="selectLocalidades">
-                    <option selected>Elije una localidad</option>
+                    <option selected class="d-none">Elije una localidad</option>
                     ${filtroLocalidades()}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="selectFiltros" class="form-label">Por Tipo de Organización</label>
+                <select class="custom-select" id="selectFiltros">
+                    <option selected class="d-none">Elije un tipo</option>
+                    ${filtroTipos()}
                 </select>
             </div>
             <div class="container mt-4">
@@ -143,19 +157,24 @@ function filtros(sidebar) {
     sidebar.addPanel(panelContent);
     document.querySelector("#selectProvincias").addEventListener("change", function (e) {
         const seleccionada = e.target.value;
-        opcionElegida = provincias.find(p => p.nombre === seleccionada);
+        opcionElegida = provincias.find(p => p.info === seleccionada);
         filtroElegida = 'provincia';
         addMarker(seleccionada, 'provincia');
     });
 
     document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
         const seleccionada = e.target.value;
-        opcionElegida = localidades.find(l => l.nombre === seleccionada);
+        opcionElegida = localidades.find(l => l.info === seleccionada);
         filtroElegida = 'localidad';
         addMarker(seleccionada, 'localidad');
     });
 
-    document.querySelector("#recargarFiltro").addEventListener("click", e => location.reload());
+    document.querySelector("#selectFiltros").addEventListener("change", function (e) {
+        const seleccionada = e.target.value;
+        opcionElegida = tipoOrganizacion.find(l => l.clave === seleccionada);
+        filtroElegida = 'tipo';
+        addMarker(seleccionada, 'tipo');
+    });
 
     document.querySelector("#verSegunFiltro").addEventListener("click", e => {
         if (opcionElegida && filtroElegida) {
@@ -166,6 +185,7 @@ function filtros(sidebar) {
         }
     });
 
+    document.querySelector("#recargarFiltro").addEventListener("click", e => location.reload());
 }
 
 filtros(sidebar);
