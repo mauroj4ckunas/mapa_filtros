@@ -31,8 +31,14 @@ function addMarker(key, value) {
         if (key === 'all' || key === d[value]) {
             const marker = L.marker(d.coordinate).bindPopup(`
                 <div class="container">
-                    <p class="font-weight-bold mb-2">${d.title}</p>
-                    <p class="font-italic">${d.description}</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fa fa-building"></i> ${d.data.nombre}</h5>
+                            <p class="card-text"><i class="fa fa-user"></i> Contacto: ${d.data.contacto}</p>
+                            <p class="card-text"><i class="fa fa-phone"></i> Número: ${d.data.num_contacto ? d.data.num_contacto : 'Sin número del contacto'}</p>
+                            <p class="card-text"><i class="fa fa-envelope"></i> Mail: ${d.data.mail ? d.data.mail : 'Sin mail del contacto'}</p>
+                        </div>
+                    </div>
                 </div>
             `);
             marker.on('click', function () {
@@ -43,17 +49,17 @@ function addMarker(key, value) {
             markerGroup.addLayer(marker)
         }
     })
-    markerGroup.addTo(map);    
+    markerGroup.addTo(map);
 }
 
 addMarker('all');
 
 const filtroProvincias = () => provincias.reduce((acu, act) => {
-    return acu += `<option value="${act.info}">${act.info}</option>`;
+    return acu += `<option value="${act.clave}">${act.info}</option>`;
 }, '')
 
 const filtroLocalidades = () => localidades.reduce((acu, act) => {
-    return acu += `<option value="${act.info}">${act.info}</option>`;
+    return acu += `<option value="${act.clave}">${act.info}</option>`;
 }, '')
 
 const filtroTipos = () => tipoOrganizacion.reduce((acu, act) => {
@@ -66,21 +72,25 @@ const agregarPanelFiltro = (sidebar, opcion, filtro) => {
     const items = dataFiltrada.reduce((acu, act) => {
         return acu += `
             <tr>
-                <td>${act.title}</td>
-                <td>${act.provincia}</td>
-                <td>${act.localidad}</td>
+                <td>${act.data.nombre}</td>
+                <td>${act.data.observacion}</td>
+                <td>
+                    <button type="button" class="btn btn-info irAlLugar" data-coordinate="${act.coordinate}">
+                        Ir al Lugar
+                    </button>
+                </td>
             </tr>
         `
     }, "");
 
     const list = `
-        <div class="container my-4">
+        <div class="container my-4 w-full">
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">info</th>
-                    <th scope="col">Provincia</th>
-                    <th scope="col">Localidad</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Observación</th>
+                    <th scope="col">Ver</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -157,14 +167,14 @@ function filtros(sidebar) {
     sidebar.addPanel(panelContent);
     document.querySelector("#selectProvincias").addEventListener("change", function (e) {
         const seleccionada = e.target.value;
-        opcionElegida = provincias.find(p => p.info === seleccionada);
+        opcionElegida = provincias.find(p => p.clave === seleccionada);
         filtroElegida = 'provincia';
         addMarker(seleccionada, 'provincia');
     });
 
     document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
         const seleccionada = e.target.value;
-        opcionElegida = localidades.find(l => l.info === seleccionada);
+        opcionElegida = localidades.find(l => l.clave === seleccionada);
         filtroElegida = 'localidad';
         addMarker(seleccionada, 'localidad');
     });
@@ -180,6 +190,18 @@ function filtros(sidebar) {
         if (opcionElegida && filtroElegida) {
             sidebar.removePanel("panelFiltro");
             agregarPanelFiltro(sidebar, opcionElegida, filtroElegida);
+            document.querySelectorAll('.irAlLugar').forEach(boton => {
+                boton.addEventListener('click', function() {
+                    const coordinates = this.dataset.coordinate.split(',').map(Number);
+                    map.setView(coordinates, 15);
+                    markerGroup.eachLayer(function (marker) {
+                        if (marker.getLatLng().equals(L.latLng(coordinates))) {
+                            marker.openPopup();
+                            return
+                        }
+                    });
+                });
+            });
         } else {
             alert("Debe seleccionar un filtro primero")
         }
