@@ -1,6 +1,7 @@
 import { provincias } from "./utils/filtroProv.js";
 import { localidades } from "./utils/filtroLocalidad.js";
 import { tipoOrganizacion } from "./utils/filtroTipo.js";
+import { asistencias } from "./utils/filtroAsistencia.js";
 import { data } from "./utils/mock.js";
 
 const map = L.map('map', {zoomControl: false});
@@ -24,11 +25,22 @@ let sidebar = L.control.sidebar({
     position: 'left',     
 }).addTo(map);
 
+const showAllMarker = null;
 const markerGroup = L.layerGroup();
-function addMarker(key, value) {
+function addMarker(filtros) {
     markerGroup.clearLayers();
     data.forEach(d => {
-        if (key === 'all' || key === d[value]) {
+        let includeMarker = true;
+
+        if (filtros !== null) {
+            for (let key in filtros) {
+                if (filtros[key] !== null && d[key] !== filtros[key]) {
+                    includeMarker = false;
+                    break;
+                }
+            }
+        }
+        if (includeMarker) {
             const marker = L.marker(d.coordinate).bindPopup(`
                 <div class="container">
                     <div class="card">
@@ -52,7 +64,7 @@ function addMarker(key, value) {
     markerGroup.addTo(map);
 }
 
-addMarker('all');
+addMarker(showAllMarker);
 
 const filtroProvincias = () => provincias.reduce((acu, act) => {
     return acu += `<option value="${act.clave}">${act.info}</option>`;
@@ -62,7 +74,7 @@ const filtroLocalidades = () => localidades.reduce((acu, act) => {
     return acu += `<option value="${act.clave}">${act.info}</option>`;
 }, '')
 
-const filtroTipos = () => tipoOrganizacion.reduce((acu, act) => {
+const filtroAsistencia = () => asistencias.reduce((acu, act) => {
     return acu += `<option value="${act.clave}">${act.info}</option>`;
 }, '')
 
@@ -113,8 +125,11 @@ const agregarPanelFiltro = (sidebar, opcion, filtro) => {
 
 function filtros(sidebar) {
 
-    let opcionElegida = '';
-    let filtroElegida = '';
+    let filtroElegida = {
+        provincia: null,
+        localidad: null,
+        tipo: null,
+    };
 
     const inputs = `
         <div class="container h-100 w-100 my-4">
@@ -133,10 +148,10 @@ function filtros(sidebar) {
                 </select>
             </div>
             <div class="mb-3">
-                <label for="selectFiltros" class="form-label">Por Tipo de Organización</label>
-                <select class="custom-select" id="selectFiltros">
+                <label for="selectAsistencia" class="form-label">Por Tipo de Asistencia</label>
+                <select class="custom-select" id="selectAsistencia">
                     <option selected class="d-none">Elije un tipo</option>
-                    ${filtroTipos()}
+                    ${filtroAsistencia()}
                 </select>
             </div>
             <div class="container mt-4">
@@ -165,31 +180,26 @@ function filtros(sidebar) {
     };
 
     sidebar.addPanel(panelContent);
+
     document.querySelector("#selectProvincias").addEventListener("change", function (e) {
-        const seleccionada = e.target.value;
-        opcionElegida = provincias.find(p => p.clave === seleccionada);
-        filtroElegida = 'provincia';
-        addMarker(seleccionada, 'provincia');
+        filtroElegida.provincia = e.target.value;
+        addMarker(filtroElegida);
     });
 
     document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
-        const seleccionada = e.target.value;
-        opcionElegida = localidades.find(l => l.clave === seleccionada);
-        filtroElegida = 'localidad';
-        addMarker(seleccionada, 'localidad');
+        filtroElegida.localidad = e.target.value;
+        addMarker(filtroElegida);
     });
 
-    document.querySelector("#selectFiltros").addEventListener("change", function (e) {
-        const seleccionada = e.target.value;
-        opcionElegida = tipoOrganizacion.find(l => l.clave === seleccionada);
-        filtroElegida = 'tipo';
-        addMarker(seleccionada, 'tipo');
+    document.querySelector("#selectAsistencia").addEventListener("change", function (e) {
+        filtroElegida.tipo = e.target.value;
+        addMarker(filtroElegida);
     });
 
     document.querySelector("#verSegunFiltro").addEventListener("click", e => {
         if (opcionElegida && filtroElegida) {
             sidebar.removePanel("panelFiltro");
-            agregarPanelFiltro(sidebar, opcionElegida, filtroElegida);
+            agregarPanelFiltro(sidebar, filtroElegida);
             document.querySelectorAll('.irAlLugar').forEach(boton => {
                 boton.addEventListener('click', function() {
                     const coordinates = this.dataset.coordinate.split(',').map(Number);

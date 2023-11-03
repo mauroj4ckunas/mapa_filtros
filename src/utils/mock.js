@@ -3,7 +3,7 @@ export const data = [
         coordinate: [-34.74317133345502, -58.38993950186129],
         provincia: 'buenos_aires',
         localidad: 'banfield',
-        tipo: 'org_social',
+        tipo: 'alojamiento',
         data: {
             nombre: 'Proyecto Mas',
             observacion: 'observacion del Proyecto Max',
@@ -18,7 +18,7 @@ export const data = [
         coordinate: [-38.04394750726469, -57.59144060643585],
         provincia: 'buenos_aires',
         localidad: 'mar_del_plata',
-        tipo: 'org_publico',
+        tipo: 'alojamiento',
         data: {
             nombre: 'Censos',
             observacion: 'observacion del Censos',
@@ -33,7 +33,7 @@ export const data = [
         coordinate: [-38.08535808505526, -57.595935406967676],
         provincia: 'buenos_aires',
         localidad: 'mar_del_plata',
-        tipo: 'org_privado',
+        tipo: 'salud',
         data: {
             nombre: 'COMUNIDADES DEL SUR - Don Orione',
             observacion: 'observacion del COMUNIDADES DEL SUR - Don Orione',
@@ -48,7 +48,7 @@ export const data = [
         coordinate: [-33.340772428131224, -60.22107941915559],
         provincia: 'buenos_aires',
         localidad: 'san_nicolas_de_los_arroyos',
-        tipo: 'org_publico',
+        tipo: 'salud',
         data: {
             nombre: 'La Casita de Don Orione Un hogar para todos',
             observacion: 'observacion del Proyecto Max',
@@ -63,7 +63,7 @@ export const data = [
         coordinate: [-29.14662871017508, -59.63440941489629],
         provincia: 'santa_fe',
         localidad: 'reconquista',
-        tipo: 'org_social',
+        tipo: 'higiene',
         data: {
             nombre: 'LOS CORTADEÑOS',
             observacion: 'observacion del LOS CORTADEÑOS',
@@ -78,7 +78,7 @@ export const data = [
         coordinate: [-27.473908430391607, -59.01214432071524],
         provincia: 'chaco',
         localidad: 'resistencia',
-        tipo: 'org_publico',
+        tipo: 'higiene',
         data: {
             nombre: 'CORAZÓN AMIGO',
             observacion: 'observacion del CORAZÓN AMIGO',
@@ -93,7 +93,7 @@ export const data = [
         coordinate: [-23.812945916463313, -64.79712449468718],
         provincia: 'jujuy',
         localidad: 'libertador_general_san_martin',
-        tipo: 'org_privado',
+        tipo: 'alimentacion',
         data: {
             nombre: 'CENTRO LIBERTAD',
             observacion: 'observacion del CENTRO LIBERTAD',
@@ -108,7 +108,7 @@ export const data = [
         coordinate: [-24.707747650774493, -60.58868413449087],
         provincia: 'formosa',
         localidad: 'las_lomitas',
-        tipo: 'org_publico',
+        tipo: 'alimentacion',
         data: {
             nombre: 'ASOCIACIÓN PARA LA PROMOCIÓN DE LA CULTURA Y EL DESARROLLO',
             observacion: 'observacion del ASOCIACIÓN PARA LA PROMOCIÓN DE LA CULTURA Y EL DESARROLLO',
@@ -123,7 +123,7 @@ export const data = [
         coordinate: [-31.54069031461898, -68.52747512168037],
         provincia: 'san_juan',
         localidad: 'san_juan',
-        tipo: 'org_social',
+        tipo: 'recorridos',
         data: {
             nombre: 'Refugio Madre Teresa de Calculta',
             observacion: 'observacion del Refugio Madre Teresa de Calculta',
@@ -138,7 +138,7 @@ export const data = [
         coordinate: [-38.96534906483482, -68.06152514521344],
         provincia: 'neuquen',
         localidad: 'neuquen',
-        tipo: 'org_publico',
+        tipo: 'recorridos',
         data: {
             nombre: 'Refugio Cura Brochero',
             observacion: 'observacion del Refugio Cura Brochero',
