@@ -12,13 +12,23 @@ const allFiltros = {
 const map = L.map('map', {zoomControl: false});
 const setMap = () => {
     map.setView([-34.5559, -64.0166], 5);
-    const urlBaseLayer = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-    L.tileLayer(urlBaseLayer).addTo(map);
-    map.attributionControl.setPrefix('Leaflet | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors');
+
+    const baseLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png');
+    const baseOscuroLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/argenmap_oscuro@EPSG%3A3857@png/{z}/{x}/{-y}.png');
+    const baseTopograficoLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/mapabase_topo@EPSG%3A3857@png/{z}/{x}/{-y}.png');
+
+    baseLayer.addTo(map);
+    map.attributionControl.setPrefix('Leaflet | &copy; <a href="https://www.ign.gob.ar/">IGN</a> contributors');
+
+    const baseLayers = {
+        "Mapa Clásico": baseLayer,
+        "Mapa Oscuro": baseOscuroLayer,
+        "Mapa Topográfico": baseTopograficoLayer
+    };
+    L.control.layers(baseLayers, null, { collapsed: false }).addTo(map);
 
     let zoomHome = L.Control.zoomHome();
     zoomHome.addTo(map);
-
 }
 
 setMap();
@@ -51,18 +61,33 @@ function addMarker(filtros) {
                 <div class="container">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"><i class="fa fa-building"></i> ${d.data.nombre}</h5>
-                            <p class="card-text"><i class="fa fa-user"></i> Contacto: ${d.data.contacto}</p>
-                            <p class="card-text"><i class="fa fa-phone"></i> Número: ${d.data.num_contacto ? d.data.num_contacto : 'Sin número del contacto'}</p>
-                            <p class="card-text"><i class="fa fa-envelope"></i> Mail: ${d.data.mail ? d.data.mail : 'Sin mail del contacto'}</p>
+                            <h5 class="card-title text-center"><i class="fa fa-building"></i> ${d.data.nombre}</h5>
+                            <p class="card-text"><i class="fa fa-user"></i> <span class="font-weight-bold text-info">Contacto</span>: ${d.data.contacto}</p>
+                            <p class="card-text"><i class="fa fa-phone"></i> <span class="font-weight-bold text-info">Número</span>: ${d.data.num_contacto ? d.data.num_contacto : 'Sin número de contacto'}</p>
+                            <p class="card-text"><i class="fa fa-envelope"></i> <span class="font-weight-bold text-info">Mail</span>: ${d.data.mail ? d.data.mail : 'Sin mail de contacto'}</p>
+                            <p class="card-text"><i class="fa fa-calendar-check-o"></i> <span class="font-weight-bold text-info">Entrevista</span>: ${d.data.entrevista ? 'Hay entrevista' : 'No hay entrevista'}</p>
+                            <p class="card-text"><i class="fa fa-wpforms"></i> <span class="font-weight-bold text-info">Formulario</span>: ${d.data.forms ? 'Hay formulario' : 'No hay formulario'}</p>
+                            <p class="card-text"><i class="fa fa-user-circle-o"></i> <span class="font-weight-bold text-info">Quien Contacto</span>: ${d.data.quienContacto ? d.data.quienContacto : '-'}</p>
+                            <p class="card-text"><i class="fa fa-clock-o"></i> <span class="font-weight-bold text-info">Fecha de Entrevista</span>: ${d.data.fechaEntrevista ? d.data.fechaEntrevista : 'Sin confirmar'}</p>                     
+                            <p class="card-text"><i class="fa fa-sitemap"></i> <span class="font-weight-bold text-info">Estrato</span>: ${d.data.estrato ? d.data.estrato : '-'}</p>                  
+                            <p class="card-text"><i class="fa fa-university"></i> <span class="font-weight-bold text-info">Tipo de Organización</span>: ${d.data.organizacion ? d.data.organizacion : '-'}</p>                  
+                            <p class="card-text"><i class="fa fa-align-left"></i> <span class="font-weight-bold text-info">Descripción</span>: ${d.data.descripcion ? d.data.descripcion : '-'}</p>                
+                            ${d.data.linkInfo || d.data.linkInterno ? `
+                                <div class="d-flex justify-content-${d.data.linkInfo && d.data.linkInterno ? 'between' : 'center'} mt-3">
+                                    ${d.data.linkInfo ? `<a href="${d.data.linkInfo}" class="btn btn-dark text-white" target="_blank">Más Info</a>` : ''}
+                                    ${d.data.linkInterno ? `<a href="${d.data.linkInterno}" class="btn btn-dark text-white" target="_blank">Link Interno</a>` : ''}
+                                </div>
+                            ` : ''}            
                         </div>
                     </div>
                 </div>
             `);
             marker.on('click', function () {
+                const zoomLevel = 12;
                 const latLng = marker.getLatLng();
-                const zoomLevel = 15;
-                map.flyTo(latLng, zoomLevel);
+                const popupOffset = 0.09; 
+                const adjustedLatLng = L.latLng([latLng.lat + popupOffset, latLng.lng]);
+                map.flyTo(adjustedLatLng, zoomLevel);
             });
             markerGroup.addLayer(marker)
         }
@@ -233,7 +258,9 @@ function filtros(sidebar) {
             document.querySelectorAll('.irAlLugar').forEach(boton => {
                 boton.addEventListener('click', function() {
                     const coordinates = this.dataset.coordinate.split(',').map(Number);
-                    map.setView(coordinates, 15);
+                    const popupOffset = 0.01;
+                    const adjustedLatLng = L.latLng([coordinates[0] - popupOffset, coordinates[1]]);
+                    map.setView(adjustedLatLng, 12);
                     markerGroup.eachLayer(function (marker) {
                         if (marker.getLatLng().equals(L.latLng(coordinates))) {
                             marker.openPopup();
@@ -251,3 +278,5 @@ function filtros(sidebar) {
 }
 
 filtros(sidebar);
+
+
