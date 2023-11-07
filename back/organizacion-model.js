@@ -91,18 +91,52 @@ const Organizacion = sequelize.define('Organizacion', {
     type: DataTypes.STRING,
     allowNull:false
   },
-    },{
-    tableName:"organizaciones",  
+    },{      
       getterMethods:{
         coordinates(){
           return [this.getDataValue('latitud'), this.getDataValue('longitud')];
         }
-    }
+    },
+    toJSON:{
+      getters:true,
+    },
+    tableName:"organizaciones",
   });
+
+
+  // ...
+
+const obtenerProvinciasUnicas = async () => {
+  const provincias = await Organizacion.findAll({
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('provincia')), 'provincia']],
+  });
+  return provincias.map((org) => org.dataValues.provincia);
+};
+
+const obtenerLocalidadesUnicas = async () => {
+  const localidades = await Organizacion.findAll({
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('localidad')), 'localidad']],
+  });
+  return localidades.map((org) => org.dataValues.localidad);
+};
+
+const obtenerTiposUnicos = async () => {
+  const tipos = await Organizacion.findAll({
+    attributes: [[sequelize.fn('DISTINCT', sequelize.col('tipo_organizacion')), 'tipo_organizacion']],
+  });
+  return tipos.map((org) => org.dataValues.tipo_organizacion);
+};
+
+
 
 // Sincroniza el modelo con la base de datos (crea la tabla si no existe)
 (async () => {
   await Organizacion.sync();
 })();
 
-module.exports = Organizacion;
+module.exports = {
+  Organizacion,
+  obtenerProvinciasUnicas,
+  obtenerLocalidadesUnicas,
+  obtenerTiposUnicos,
+};
