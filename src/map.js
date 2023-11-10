@@ -1,17 +1,112 @@
+import { opcionesFiltros } from "./utils/opcionesFiltros.js";
+import { allOrganizaciones } from "./utils/allOrganizaciones.js";
+import { filOrganizaciones } from "./utils/filOrganizaciones.js";
 import { provincias } from "./utils/filtroProv.js";
 import { localidades } from "./utils/filtroLocalidad.js";
 import { asistencias } from "./utils/filtroAsistencia.js";
-import { data } from "./utils/mock.js";
-
-const allFiltros = {
-    provincia: provincias,
-    localidad: localidades,
-    tipo: asistencias,
-}
+// import { data } from "./utils/mock.js";
 
 const map = L.map('map', {zoomControl: false});
-const setMap = () => {
-    map.setView([-34.5559, -64.0166], 5);
+const markerGroup = L.layerGroup();
+let sidebar = L.control.sidebar({
+    autopan: false,       
+    closeButton: true,    
+    container: 'sidebar', 
+    position: 'left',     
+}).addTo(map);
+
+async function addAllMarkerFromBD() {
+    const loading = `
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="fa fa-circle-o-notch fa-4x fa-spin text-dark" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+    `;
+    const iconLoading = L.divIcon({
+        className: 'custom-div-icon',
+        html: loading,
+        iconSize: [100, 100]
+    });
+    const cargandoOrganizaciones = L.marker([-34.5559, -64.0166], { icon: iconLoading });
+    cargandoOrganizaciones.addTo(map);
+
+    await allOrganizaciones()
+        .then(data => {
+            drawMarkerOrganizacion(data);
+            map.removeLayer(cargandoOrganizaciones);
+            markerGroup.addTo(map);
+        })
+        .catch(error => alert("No se pudieron cagar las organizaciones"))
+}
+
+const drawMarkerOrganizacion = (organizaciones) => {
+    organizaciones.forEach(d => {
+        const marker = L.marker([Number(d.latitud), Number(d.longitud)]).bindPopup(`
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><i class="fa fa-building"></i> ${d.nombre_organizacion}</h5>
+                        <p class="card-text"><i class="fa fa-map-marker"></i> <span class="font-weight-bold text-info">Provincia</span>: ${d.provincia}</p>
+                        <p class="card-text"><i class="fa fa-map-o"></i> <span class="font-weight-bold text-info">Localidad</span>: ${d.localidad}</p>
+                        <p class="card-text"><i class="fa fa-users"></i> <span class="font-weight-bold text-info">Tipo de Organización</span>: ${d.tipo_organizacion}</p>
+                        <p class="card-text"><i class="fa fa-home"></i> <span class="font-weight-bold text-info">Dirección</span>: ${d.direccion ? d.direccion : 'Dirección no cargada'}</p>
+                        <p class="card-text"><i class="fa fa-phone"></i> <span class="font-weight-bold text-info">Número</span>: ${d.nro_contacto ? d.nro_contacto : 'Sin número de contacto'}</p>
+                        <p class="card-text"><i class="fa fa-envelope"></i> <span class="font-weight-bold text-info">Email</span>: ${d.email ? d.email : 'Sin email de contacto'}</p>
+                        <p class="card-text"><i class="fa fa-hashtag"></i> <span class="font-weight-bold text-info">Redes</span>: ${d.redes ? d.redes : 'Sin redes'}</p>
+                        <p class="card-text"><i class="fa fa-info-circle"></i> <span class="font-weight-bold text-info">Información Adicional</span>: ${d.info_adicional ? d.info_adicional : 'Sin datos'}</p>
+                        <p class="card-text"><i class="fa fa-handshake-o"></i> <span class="font-weight-bold text-info">Tipo de Asistencia</span>: ${tiposAsistencia({
+                            asistencia_alimentacion: d.asistencia_alimentacion,
+                            asistencia_alojamiento: d.asistencia_alojamiento,
+                            asistencia_higiene: d.asistencia_higiene,
+                            asistencia_recorridas: d.asistencia_recorridas,
+                            asistencia_recreacion: d.asistencia_recreacion,
+                            asistencia_salud: d.asistencia_salud
+                        })}</p>
+                        <p class="card-text"><i class="fa fa-venus-mars"></i> <span class="font-weight-bold text-info">Género</span>: ${generos({  
+                            genero_lbgtiq: d.genero_lbgtiq,
+                            genero_mujeres_cis: d.genero_mujeres_cis,
+                            genero_varones_cis: d.genero_varones_cis,
+                        })}</p>
+                        <p class="card-text"><i class="fa fa-child"></i> <span class="font-weight-bold text-info">Edades</span>: ${d.edades ? d.edades : '-'}</p>
+                        <p class="card-text"><i class="fa fa-clock-o"></i> <span class="font-weight-bold text-info">Días y Horarios</span>: ${d.dias_horarios ? d.dias_horarios : '-'}</p>
+                    </div>
+                </div>
+            </div>
+        `);
+        marker.on('click', function () {
+            const zoomLevel = 12;
+            const latLng = marker.getLatLng();
+            const popupOffset = 0.09; 
+            const adjustedLatLng = L.latLng([latLng.lat + popupOffset, latLng.lng]);
+            map.flyTo(adjustedLatLng, zoomLevel);
+        });
+        markerGroup.addLayer(marker)
+    })
+}
+
+const tiposAsistencia = (asistencia) => {
+  return Object.keys(asistencia)
+        .filter(key => asistencia[key])
+        .map(key => {
+            return key.split('_').slice(1).join(' ').replace(/\b\w/g, l => l.toUpperCase());
+        })
+        .join(', ');;
+}
+
+const generos = (generos) => {
+    return Object.keys(generos)
+    .filter(key => generos[key])
+    .map(key => {
+      return key.split('_').slice(1).map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      }).join(' ');
+    })
+    .join(', ');
+}
+
+const setMap = (lat = -34.5559, lng =  -64.0166) => {
+    map.setView([lat, lng], 5);
 
     const baseLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png');
     const baseOscuroLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/argenmap_oscuro@EPSG%3A3857@png/{z}/{x}/{-y}.png');
@@ -29,19 +124,14 @@ const setMap = () => {
 
     let zoomHome = L.Control.zoomHome();
     zoomHome.addTo(map);
+
+    addAllMarkerFromBD();
 }
 
 setMap();
 
-let sidebar = L.control.sidebar({
-    autopan: false,       
-    closeButton: true,    
-    container: 'sidebar', 
-    position: 'left',     
-}).addTo(map);
-
 const showAllMarker = null;
-const markerGroup = L.layerGroup();
+
 
 function addMarker(filtros) {
     markerGroup.clearLayers();
@@ -95,18 +185,18 @@ function addMarker(filtros) {
     markerGroup.addTo(map);
 }
 
-addMarker(showAllMarker);
+// addMarker(showAllMarker);
 
 const filtroProvincias = () => provincias.reduce((acu, act) => {
-    return acu += `<option value="${act.clave}">${act.info}</option>`;
+    return acu += `<option value="${act}">${act}</option>`;
 }, '')
 
 const filtroLocalidades = () => localidades.reduce((acu, act) => {
-    return acu += `<option value="${act.clave}">${act.info}</option>`;
+    return acu += `<option value="${act}">${act}</option>`;
 }, '')
 
 const filtroAsistencia = () => asistencias.reduce((acu, act) => {
-    return acu += `<option value="${act.clave}">${act.info}</option>`;
+    return acu += `<option value="${act}">${act}</option>`;
 }, '')
 
 const agregarPanelFiltro = (sidebar, filtros) => {

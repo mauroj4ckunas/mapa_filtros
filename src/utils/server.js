@@ -1,8 +1,11 @@
 const express = require('express');
+const cors = require('cors');
+
 const { Organizacion, obtenerProvinciasUnicas, obtenerLocalidadesUnicas, obtenerTiposUnicos } = require('../../back/organizacion-model');
 
 
 const app = express();
+app.use(cors());
 
 app.get('/opciones-filtros', async (req, res) => {
   const provincias = await obtenerProvinciasUnicas();
