@@ -25,6 +25,14 @@ sidebar.addPanel(panelLoading);
 
 const loadingGroup = L.layerGroup();
 
+const markerGroups = {
+    Religiosa: L.layerGroup(),
+    Gubernamental: L.layerGroup(),
+    Comunitaria: L.layerGroup(),
+    'Social y/o Politica': L.layerGroup(),
+    'Asociacion Civil': L.layerGroup(),
+};
+
 const allOptions = {
     provincias: [],
     localidades: [],
@@ -48,17 +56,6 @@ const addLoading = () => {
     const cargandoOrganizaciones = L.marker([-34.5559, -64.0166], { icon: iconLoading });
     loadingGroup.addLayer(cargandoOrganizaciones);
     loadingGroup.addTo(map)
-}
-
-async function addAllMarkerFromBD() {
-    allOrganizaciones()
-        .then(data => {
-            drawMarkerOrganizacion(data);
-            all = data;
-            map.removeLayer(loadingGroup);
-            markerGroup.addTo(map);
-        })
-        .catch(error => alert("No se pudieron cagar las organizaciones"))
 }
 
 const drawMarkerOrganizacion = (organizaciones) => {
@@ -113,8 +110,21 @@ const drawMarkerOrganizacion = (organizaciones) => {
             const adjustedLatLng = L.latLng([latLng.lat + popupOffset, latLng.lng]);
             map.flyTo(adjustedLatLng, zoomLevel);
         });
-        markerGroup.addLayer(marker)
+        let groupName = d.tipo_organizacion === 'Social y o politica' ? "Social y/o Politica" : d.tipo_organizacion;
+        markerGroups[groupName].addLayer(marker);
     })
+}
+
+
+async function addAllMarkerFromBD() {
+    allOrganizaciones()
+        .then(data => {
+            drawMarkerOrganizacion(data);
+            all = data;
+            map.removeLayer(loadingGroup);
+            Object.values(markerGroups).forEach(group => group.addTo(map));
+        })
+        .catch(error => {alert("No se pudieron cagar las organizaciones"); console.error(error)})
 }
 
 const tiposAsistencia = (asistencia) => {
@@ -146,7 +156,7 @@ const showSidebarWithOptions = async () => {
     })
 }
 
-const setMap = (lat = -34.5559, lng =  -64.0166) => {
+const setMap = async (lat = -34.5559, lng =  -64.0166) => {
     map.setView([lat, lng], 5);
 
     const baseLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png');
@@ -161,26 +171,36 @@ const setMap = (lat = -34.5559, lng =  -64.0166) => {
         "Mapa Oscuro": baseOscuroLayer,
         "Mapa Topográfico": baseTopograficoLayer
     };
-    L.control.layers(baseLayers, null, { collapsed: false }).addTo(map);
+    
 
     let zoomHome = L.Control.zoomHome();
     zoomHome.addTo(map);
 
     addLoading();
-    addAllMarkerFromBD();
+    await addAllMarkerFromBD();
+
+    const overlayMaps = {
+        "Religiosa": markerGroups.Religiosa,
+        "Gubernamental": markerGroups.Gubernamental,
+        "Comunitaria": markerGroups.Comunitaria,
+        "Social y/o Politica": markerGroups['Social y/o Politica'],
+        "Asociacion Civil": markerGroups["Asociacion Civil"]
+    };
+    L.control.layers(baseLayers, overlayMaps, { collapsed: false }).addTo(map);
+
     showSidebarWithOptions();
 }
 
 setMap();
 
 function addMarkerFilter({ provincia, localidad, tipo }) {
-    markerGroup.clearLayers()
+    Object.values(markerGroups).forEach(group => group.clearLayers());
     loadingGroup.addTo(map);
     filOrganizaciones(provincia, localidad, tipo)
         .then(data => {
             drawMarkerOrganizacion(data)
             map.removeLayer(loadingGroup);
-            markerGroup.addTo(map);
+            Object.values(markerGroups).forEach(group => group.addTo(map));
         })
 }
 
