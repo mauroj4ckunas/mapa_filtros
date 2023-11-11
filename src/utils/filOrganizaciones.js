@@ -2,7 +2,7 @@
 const entorno = 'http://localhost:3000';
 
 export const filOrganizaciones = (provincia = "", localidad = "", tipo_organizacion = "") => {
-    const url = `${entorno}/filtrar?provincia=${provincia}&localidad=${localidad}&tipo_organizacion=${tipo_organizacion}`;
+    const url = `${entorno}/filtrar?provincia=${provincia}&localidad=${localidad}&tipoOrganizacion=${tipo_organizacion}`;
     return fetch(url, {
         'method': 'GET',
     })

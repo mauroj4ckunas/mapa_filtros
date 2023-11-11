@@ -14,7 +14,7 @@ export const opcionesFiltros = () => {
             return response.json();
         })
         .then(data => {
-            console.log('Datos recibidos:', data);
+            return data;
         })
         .catch(error => {
             console.error('Error al realizar la solicitud:', error);

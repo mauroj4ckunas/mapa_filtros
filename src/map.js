@@ -1,21 +1,38 @@
 import { opcionesFiltros } from "./utils/opcionesFiltros.js";
 import { allOrganizaciones } from "./utils/allOrganizaciones.js";
 import { filOrganizaciones } from "./utils/filOrganizaciones.js";
-import { provincias } from "./utils/filtroProv.js";
-import { localidades } from "./utils/filtroLocalidad.js";
-import { asistencias } from "./utils/filtroAsistencia.js";
 // import { data } from "./utils/mock.js";
 
 const map = L.map('map', {zoomControl: false});
 const markerGroup = L.layerGroup();
-let sidebar = L.control.sidebar({
+
+const panelLoading = {
+    id: 'panelLoading',
+    tab: '<i class="fa fa-spinner fa-spin text-dark"></i>',
+    pane: '<p></p>',
+    title: '<i>Cargando...</i>',
+    position: 'top',
+};
+
+const sidebar = L.control.sidebar({
     autopan: false,       
     closeButton: true,    
     container: 'sidebar', 
     position: 'left',     
-}).addTo(map);
+}).addTo(map)
 
-async function addAllMarkerFromBD() {
+sidebar.addPanel(panelLoading);
+
+const loadingGroup = L.layerGroup();
+
+const allOptions = {
+    provincias: [],
+    localidades: [],
+    tipos: [],
+}
+let all;
+
+const addLoading = () => {
     const loading = `
     <div class="d-flex justify-content-center align-items-center">
         <div class="fa fa-circle-o-notch fa-4x fa-spin text-dark" role="status">
@@ -29,12 +46,16 @@ async function addAllMarkerFromBD() {
         iconSize: [100, 100]
     });
     const cargandoOrganizaciones = L.marker([-34.5559, -64.0166], { icon: iconLoading });
-    cargandoOrganizaciones.addTo(map);
+    loadingGroup.addLayer(cargandoOrganizaciones);
+    loadingGroup.addTo(map)
+}
 
-    await allOrganizaciones()
+async function addAllMarkerFromBD() {
+    allOrganizaciones()
         .then(data => {
             drawMarkerOrganizacion(data);
-            map.removeLayer(cargandoOrganizaciones);
+            all = data;
+            map.removeLayer(loadingGroup);
             markerGroup.addTo(map);
         })
         .catch(error => alert("No se pudieron cagar las organizaciones"))
@@ -42,7 +63,18 @@ async function addAllMarkerFromBD() {
 
 const drawMarkerOrganizacion = (organizaciones) => {
     organizaciones.forEach(d => {
-        const marker = L.marker([Number(d.latitud), Number(d.longitud)]).bindPopup(`
+        let customIcon = L.icon({
+            iconUrl: `../public/${
+                d.tipo_organizacion === 'Religiosa' ? 'mark_religiosa.png' :
+                d.tipo_organizacion === 'Gubernamental' ? 'mark_gubernamental.png' :
+                d.tipo_organizacion === 'Comunitaria' ? 'mark_comunitaria.png' :
+                d.tipo_organizacion === 'Social y o politica' ? 'mark_soc_pol.png' :
+                d.tipo_organizacion === 'Social y/o Politica' ? 'mark_soc_pol.png' :
+                'mark_as_civil.png' 
+            }`,
+            iconSize: [33, 35],
+        });
+        const marker = L.marker([Number(d.latitud), Number(d.longitud)], { icon: customIcon }).bindPopup(`
             <div class="container">
                 <div class="card">
                     <div class="card-body">
@@ -105,6 +137,15 @@ const generos = (generos) => {
     .join(', ');
 }
 
+const showSidebarWithOptions = async () => {
+    opcionesFiltros().then(res => {
+        allOptions.provincias = res.provincias;
+        allOptions.localidades = res.localidades;
+        allOptions.tipos = res.tipos;
+        filtros();
+    })
+}
+
 const setMap = (lat = -34.5559, lng =  -64.0166) => {
     map.setView([lat, lng], 5);
 
@@ -125,93 +166,44 @@ const setMap = (lat = -34.5559, lng =  -64.0166) => {
     let zoomHome = L.Control.zoomHome();
     zoomHome.addTo(map);
 
+    addLoading();
     addAllMarkerFromBD();
+    showSidebarWithOptions();
 }
 
 setMap();
 
-const showAllMarker = null;
-
-
-function addMarker(filtros) {
-    markerGroup.clearLayers();
-    data.forEach(d => {
-        let includeMarker = true;
-
-        if (filtros !== null) {
-            for (let key in filtros) {
-                if (filtros[key] !== null && d[key] !== filtros[key]) {
-                    includeMarker = false;
-                    break;
-                }
-            }
-        }
-        if (includeMarker) {
-            const marker = L.marker(d.coordinate).bindPopup(`
-                <div class="container">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><i class="fa fa-building"></i> ${d.data.nombre}</h5>
-                            <p class="card-text"><i class="fa fa-user"></i> <span class="font-weight-bold text-info">Contacto</span>: ${d.data.contacto}</p>
-                            <p class="card-text"><i class="fa fa-phone"></i> <span class="font-weight-bold text-info">Número</span>: ${d.data.num_contacto ? d.data.num_contacto : 'Sin número de contacto'}</p>
-                            <p class="card-text"><i class="fa fa-envelope"></i> <span class="font-weight-bold text-info">Mail</span>: ${d.data.mail ? d.data.mail : 'Sin mail de contacto'}</p>
-                            <p class="card-text"><i class="fa fa-calendar-check-o"></i> <span class="font-weight-bold text-info">Entrevista</span>: ${d.data.entrevista ? 'Hay entrevista' : 'No hay entrevista'}</p>
-                            <p class="card-text"><i class="fa fa-wpforms"></i> <span class="font-weight-bold text-info">Formulario</span>: ${d.data.forms ? 'Hay formulario' : 'No hay formulario'}</p>
-                            <p class="card-text"><i class="fa fa-user-circle-o"></i> <span class="font-weight-bold text-info">Quien Contacto</span>: ${d.data.quienContacto ? d.data.quienContacto : '-'}</p>
-                            <p class="card-text"><i class="fa fa-clock-o"></i> <span class="font-weight-bold text-info">Fecha de Entrevista</span>: ${d.data.fechaEntrevista ? d.data.fechaEntrevista : 'Sin confirmar'}</p>                     
-                            <p class="card-text"><i class="fa fa-sitemap"></i> <span class="font-weight-bold text-info">Estrato</span>: ${d.data.estrato ? d.data.estrato : '-'}</p>                  
-                            <p class="card-text"><i class="fa fa-university"></i> <span class="font-weight-bold text-info">Tipo de Organización</span>: ${d.data.organizacion ? d.data.organizacion : '-'}</p>                  
-                            <p class="card-text"><i class="fa fa-align-left"></i> <span class="font-weight-bold text-info">Descripción</span>: ${d.data.descripcion ? d.data.descripcion : '-'}</p>                
-                            ${d.data.linkInfo || d.data.linkInterno ? `
-                                <div class="d-flex justify-content-${d.data.linkInfo && d.data.linkInterno ? 'between' : 'center'} mt-3">
-                                    ${d.data.linkInfo ? `<a href="${d.data.linkInfo}" class="btn btn-dark text-white" target="_blank">Más Info</a>` : ''}
-                                    ${d.data.linkInterno ? `<a href="${d.data.linkInterno}" class="btn btn-dark text-white" target="_blank">Link Interno</a>` : ''}
-                                </div>
-                            ` : ''}            
-                        </div>
-                    </div>
-                </div>
-            `);
-            marker.on('click', function () {
-                const zoomLevel = 12;
-                const latLng = marker.getLatLng();
-                const popupOffset = 0.09; 
-                const adjustedLatLng = L.latLng([latLng.lat + popupOffset, latLng.lng]);
-                map.flyTo(adjustedLatLng, zoomLevel);
-            });
-            markerGroup.addLayer(marker)
-        }
-    })
-    markerGroup.addTo(map);
+function addMarkerFilter({ provincia, localidad, tipo }) {
+    markerGroup.clearLayers()
+    loadingGroup.addTo(map);
+    filOrganizaciones(provincia, localidad, tipo)
+        .then(data => {
+            drawMarkerOrganizacion(data)
+            map.removeLayer(loadingGroup);
+            markerGroup.addTo(map);
+        })
 }
 
 // addMarker(showAllMarker);
 
-const filtroProvincias = () => provincias.reduce((acu, act) => {
+const addFiltros = (op) => op.reduce((acu, act) => {
     return acu += `<option value="${act}">${act}</option>`;
 }, '')
 
-const filtroLocalidades = () => localidades.reduce((acu, act) => {
-    return acu += `<option value="${act}">${act}</option>`;
-}, '')
+const agregarPanelFiltro = (filtros) => {
 
-const filtroAsistencia = () => asistencias.reduce((acu, act) => {
-    return acu += `<option value="${act}">${act}</option>`;
-}, '')
-
-const agregarPanelFiltro = (sidebar, filtros) => {
-
-    const dataFiltrada = data.filter(d => {
-        return (filtros.provincia === null || d.provincia === filtros.provincia) &&
-               (filtros.localidad === null || d.localidad === filtros.localidad) &&
-               (filtros.tipo === null || d.tipo === filtros.tipo);
+    const dataFiltrada = all.filter(d => {
+        return (filtros.provincia === '' || d.provincia === filtros.provincia) &&
+               (filtros.localidad === '' || d.localidad === filtros.localidad) &&
+               (filtros.tipo === '' || d.tipo === filtros.tipo_organizacion);
     });
+
     const items = dataFiltrada.reduce((acu, act) => {
         return acu += `
             <tr>
-                <td><p class="mb-0 font-weight-bold" style="color: #333; font-size: 1rem;">${act.data.nombre}</p></td>
+                <td><p class="mb-0 font-weight-bold" style="color: #333; font-size: 1rem;">${act.nombre_organizacion}</p></td>
                 <td>
-                    <button type="button" class="btn btn-info irAlLugar" data-coordinate="${act.coordinate}">
+                    <button type="button" class="btn btn-info irAlLugar" data-coordinate="${[act.latitud, act.longitud]}">
                         Ir al Lugar
                     </button>
                 </td>
@@ -223,15 +215,10 @@ const agregarPanelFiltro = (sidebar, filtros) => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
-    const getInfoPorClave = (obj, clave) => {
-        const objPorClave = allFiltros[obj].find(prov => prov.clave === clave);
-        return objPorClave.info;
-    };
-
     const filtrosSeleccionados = Object.entries(filtros).filter(([key, value]) => !!value)
 
     const listFiltros = filtrosSeleccionados.reduce((acu, act) => {
-        return acu += `<li class="list-group-item">${capitalize(act[0])}: ${getInfoPorClave(act[0], act[1])}</li>`
+        return acu += `<li class="list-group-item">${capitalize(act[0]) !== 'Tipo' ? capitalize(act[0]) : 'Tipo de Asistencia' }: ${act[1]}</li>`
     }, "");
 
     const list = `
@@ -265,40 +252,53 @@ const agregarPanelFiltro = (sidebar, filtros) => {
     sidebar.addPanel(panelFiltro);
 }
 
-function filtros(sidebar) {
+function filtros() {
 
-    let filtroElegida = {
-        provincia: null,
-        localidad: null,
-        tipo: null,
+    const filtroElegida = {
+        provincia: "",
+        localidad: "",
+        tipo: "",
     };
 
     const inputs = `
         <div class="container h-100 w-100 my-4">
-            <div class="mb-3">
-                <label for="selectProvincias" class="form-label">Por Provincia</label>
-                <select class="custom-select" id="selectProvincias">
-                    <option selected class="d-none">Elije una provincia</option>
-                    ${filtroProvincias()}
-                    <option value="not" >Sacar Filtro</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="selectLocalidades" class="form-label">Por Localidad</label>
-                <select class="custom-select" id="selectLocalidades">
-                    <option selected class="d-none">Elije una localidad</option>
-                    ${filtroLocalidades()}
-                    <option value="not" >Sacar Filtro</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="selectAsistencia" class="form-label">Por Tipo de Asistencia</label>
-                <select class="custom-select" id="selectAsistencia">
-                    <option selected class="d-none">Elije un tipo</option>
-                    ${filtroAsistencia()}
-                    <option value="not" >Sacar Filtro</option>
-                </select>
-            </div>
+            ${
+                allOptions.provincias.length > 0 ?
+                `<div class="mb-3">
+                    <label for="selectProvincias" class="form-label">Por Provincia</label>
+                    <select class="custom-select" id="selectProvincias">
+                        <option selected class="d-none">Elije una provincia</option>
+                        ${addFiltros(allOptions.provincias)}
+                        <option value="not" >Sacar Filtro</option>
+                    </select>
+                </div>` : ''
+            }
+            ${
+                allOptions.localidades.length > 0 ?
+                `
+                <div class="mb-3">
+                    <label for="selectLocalidades" class="form-label">Por Localidad</label>
+                    <select class="custom-select" id="selectLocalidades">
+                        <option selected class="d-none">Elije una localidad</option>
+                        ${addFiltros(allOptions.localidades)}
+                        <option value="not" >Sacar Filtro</option>
+                    </select>
+                </div>
+                ` : ''
+            }
+            ${
+                allOptions.tipos.length > 0 ?
+                `
+                <div class="mb-3">
+                    <label for="selectAsistencia" class="form-label">Por Tipo de Asistencia</label>
+                    <select class="custom-select" id="selectAsistencia">
+                        <option selected class="d-none">Elije un tipo</option>
+                        ${addFiltros(allOptions.tipos)}
+                        <option value="not" >Sacar Filtro</option>
+                    </select>
+                </div>
+                ` : ''
+            }
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-sm">
@@ -316,35 +316,36 @@ function filtros(sidebar) {
         </div>
     `;
 
-    let panelContent = {
+    const panelContent = {
         id: 'panelContent',
         tab: '<i class="fa fa-search"></i>',
         pane: inputs,
         title: 'Aplicar filtros',
         position: 'top',
     };
-
+    
+    sidebar.removePanel('panelLoading');
     sidebar.addPanel(panelContent);
 
-    document.querySelector("#selectProvincias").addEventListener("change", function (e) {
-        filtroElegida.provincia = e.target.value = e.target.value === 'not' ? null : e.target.value;;
-        addMarker(filtroElegida);
+    if (allOptions.provincias.length > 0) document.querySelector("#selectProvincias").addEventListener("change", function (e) {
+        filtroElegida.provincia = e.target.value = e.target.value === 'not' ? null : e.target.value;
+        addMarkerFilter(filtroElegida)
     });
 
-    document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
-        filtroElegida.localidad = e.target.value = e.target.value === 'not' ? null : e.target.value;;
-        addMarker(filtroElegida);
+    if (allOptions.localidades.length > 0) document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
+        filtroElegida.localidad = e.target.value = e.target.value === 'not' ? null : e.target.value;
+        addMarkerFilter(filtroElegida)
     });
 
-    document.querySelector("#selectAsistencia").addEventListener("change", function (e) {
-        filtroElegida.tipo = e.target.value = e.target.value === 'not' ? null : e.target.value;;
-        addMarker(filtroElegida);
+    if (allOptions.tipos.length > 0) document.querySelector("#selectAsistencia").addEventListener("change", function (e) {
+        filtroElegida.tipo = e.target.value = e.target.value === 'not' ? null : e.target.value;
+        addMarkerFilter(filtroElegida)
     });
 
     document.querySelector("#verSegunFiltro").addEventListener("click", e => {
         if (filtroElegida) {
             sidebar.removePanel("panelFiltro");
-            agregarPanelFiltro(sidebar, filtroElegida);
+            agregarPanelFiltro(filtroElegida);
             document.querySelectorAll('.irAlLugar').forEach(boton => {
                 boton.addEventListener('click', function() {
                     const coordinates = this.dataset.coordinate.split(',').map(Number);
@@ -366,7 +367,5 @@ function filtros(sidebar) {
 
     document.querySelector("#recargarFiltro").addEventListener("click", e => location.reload());
 }
-
-filtros(sidebar);
 
 
