@@ -328,17 +328,17 @@ function filtros() {
     sidebar.addPanel(panelContent);
 
     if (allOptions.provincias.length > 0) document.querySelector("#selectProvincias").addEventListener("change", function (e) {
-        filtroElegida.provincia = e.target.value = e.target.value === 'not' ? null : e.target.value;
+        filtroElegida.provincia = e.target.value = e.target.value === 'not' ? '' : e.target.value;
         addMarkerFilter(filtroElegida)
     });
 
     if (allOptions.localidades.length > 0) document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
-        filtroElegida.localidad = e.target.value = e.target.value === 'not' ? null : e.target.value;
+        filtroElegida.localidad = e.target.value = e.target.value === 'not' ? '' : e.target.value;
         addMarkerFilter(filtroElegida)
     });
 
     if (allOptions.tipos.length > 0) document.querySelector("#selectAsistencia").addEventListener("change", function (e) {
-        filtroElegida.tipo = e.target.value = e.target.value === 'not' ? null : e.target.value;
+        filtroElegida.tipo = e.target.value = e.target.value === 'not' ? '' : e.target.value;
         addMarkerFilter(filtroElegida)
     });
 
