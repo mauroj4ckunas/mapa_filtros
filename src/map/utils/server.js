@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const { Organizacion, obtenerProvinciasUnicas, obtenerLocalidadesUnicas, obtenerTiposUnicos } = require('../../back/organizacion-model');
+const { Organizacion, obtenerProvinciasUnicas, obtenerLocalidadesUnicas, obtenerTiposUnicos } = require('../../../back/organizacion-model');
 
 
 const app = express();
