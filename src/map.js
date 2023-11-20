@@ -25,7 +25,7 @@ sidebar.addPanel(panelLoading);
 
 const loadingGroup = L.layerGroup();
 
-const markerGroups = {
+const groupTypeOrg = {
     Religiosa: L.layerGroup(),
     Gubernamental: L.layerGroup(),
     Comunitaria: L.layerGroup(),
@@ -60,18 +60,7 @@ const addLoading = () => {
 
 const drawMarkerOrganizacion = (organizaciones) => {
     organizaciones.forEach(d => {
-        let customIcon = L.icon({
-            iconUrl: `../public/${
-                d.tipo_organizacion === 'Religiosa' ? 'mark_religiosa.png' :
-                d.tipo_organizacion === 'Gubernamental' ? 'mark_gubernamental.png' :
-                d.tipo_organizacion === 'Comunitaria' ? 'mark_comunitaria.png' :
-                d.tipo_organizacion === 'Social y o politica' ? 'mark_soc_pol.png' :
-                d.tipo_organizacion === 'Social y/o Politica' ? 'mark_soc_pol.png' :
-                'mark_as_civil.png' 
-            }`,
-            iconSize: [33, 35],
-        });
-        const marker = L.marker([Number(d.latitud), Number(d.longitud)], { icon: customIcon }).bindPopup(`
+        const marker = L.marker([Number(d.latitud), Number(d.longitud)]).bindPopup(`
             <div class="container">
                 <div class="card">
                     <div class="card-body">
@@ -79,11 +68,11 @@ const drawMarkerOrganizacion = (organizaciones) => {
                         <p class="card-text"><i class="fa fa-map-marker"></i> <span class="font-weight-bold text-info">Provincia</span>: ${d.provincia}</p>
                         <p class="card-text"><i class="fa fa-map-o"></i> <span class="font-weight-bold text-info">Localidad</span>: ${d.localidad}</p>
                         <p class="card-text"><i class="fa fa-users"></i> <span class="font-weight-bold text-info">Tipo de Organización</span>: ${d.tipo_organizacion}</p>
-                        <p class="card-text"><i class="fa fa-home"></i> <span class="font-weight-bold text-info">Dirección</span>: ${d.direccion ? d.direccion : 'Dirección no cargada'}</p>
-                        <p class="card-text"><i class="fa fa-phone"></i> <span class="font-weight-bold text-info">Número</span>: ${d.nro_contacto ? d.nro_contacto : 'Sin número de contacto'}</p>
-                        <p class="card-text"><i class="fa fa-envelope"></i> <span class="font-weight-bold text-info">Email</span>: ${d.email ? d.email : 'Sin email de contacto'}</p>
-                        <p class="card-text"><i class="fa fa-hashtag"></i> <span class="font-weight-bold text-info">Redes</span>: ${d.redes ? d.redes : 'Sin redes'}</p>
-                        <p class="card-text"><i class="fa fa-info-circle"></i> <span class="font-weight-bold text-info">Información Adicional</span>: ${d.info_adicional ? d.info_adicional : 'Sin datos'}</p>
+                        ${d.direccion ? `<p class="card-text"><i class="fa fa-home"></i> <span class="font-weight-bold text-info">Dirección</span>: ${d.direccion}</p>` : ''}
+                        ${d.nro_contacto ? `<p class="card-text"><i class="fa fa-phone"></i> <span class="font-weight-bold text-info">Número</span>: ${d.nro_contacto}</p>` : ''}
+                        ${d.email ? `<p class="card-text"><i class="fa fa-envelope"></i> <span class="font-weight-bold text-info">Email</span>: ${d.email}</p>` : ''}
+                        ${d.redes ? `<p class="card-text"><i class="fa fa-hashtag"></i> <span class="font-weight-bold text-info">Redes</span>: ${d.redes}</p>` : ''}
+                        ${d.info_adicional ? `<p class="card-text"><i class="fa fa-info-circle"></i> <span class="font-weight-bold text-info">Información Adicional</span>: ${d.info_adicional}</p>` : ''}
                         <p class="card-text"><i class="fa fa-handshake-o"></i> <span class="font-weight-bold text-info">Tipo de Asistencia</span>: ${tiposAsistencia({
                             asistencia_alimentacion: d.asistencia_alimentacion,
                             asistencia_alojamiento: d.asistencia_alojamiento,
@@ -97,8 +86,8 @@ const drawMarkerOrganizacion = (organizaciones) => {
                             genero_mujeres_cis: d.genero_mujeres_cis,
                             genero_varones_cis: d.genero_varones_cis,
                         })}</p>
-                        <p class="card-text"><i class="fa fa-child"></i> <span class="font-weight-bold text-info">Edades</span>: ${d.edades ? d.edades : '-'}</p>
-                        <p class="card-text"><i class="fa fa-clock-o"></i> <span class="font-weight-bold text-info">Días y Horarios</span>: ${d.dias_horarios ? d.dias_horarios : '-'}</p>
+                        ${d.edades ? `<p class="card-text"><i class="fa fa-child"></i> <span class="font-weight-bold text-info">Edades</span>: ${d.edades}</p>` : ''}
+                        ${d.dias_horarios ? `<p class="card-text"><i class="fa fa-clock-o"></i> <span class="font-weight-bold text-info">Días y Horarios</span>: ${d.dias_horarios}</p>` : ''}
                     </div>
                 </div>
             </div>
@@ -111,7 +100,8 @@ const drawMarkerOrganizacion = (organizaciones) => {
             map.flyTo(adjustedLatLng, zoomLevel);
         });
         let groupName = d.tipo_organizacion === 'Social y o politica' ? "Social y/o Politica" : d.tipo_organizacion;
-        markerGroups[groupName].addLayer(marker);
+        markerGroup.addLayer(marker)
+        groupTypeOrg[groupName].addLayer(marker);
     })
 }
 
@@ -122,7 +112,7 @@ async function addAllMarkerFromBD() {
             drawMarkerOrganizacion(data);
             all = data;
             map.removeLayer(loadingGroup);
-            Object.values(markerGroups).forEach(group => group.addTo(map));
+            Object.values(groupTypeOrg).forEach(group => group.addTo(map));
         })
         .catch(error => {alert("No se pudieron cagar las organizaciones"); console.error(error)})
 }
@@ -179,14 +169,7 @@ const setMap = async (lat = -34.5559, lng =  -64.0166) => {
     addLoading();
     await addAllMarkerFromBD();
 
-    const overlayMaps = {
-        "Religiosa": markerGroups.Religiosa,
-        "Gubernamental": markerGroups.Gubernamental,
-        "Comunitaria": markerGroups.Comunitaria,
-        "Social y/o Politica": markerGroups['Social y/o Politica'],
-        "Asociacion Civil": markerGroups["Asociacion Civil"]
-    };
-    L.control.layers(baseLayers, overlayMaps, { collapsed: false }).addTo(map);
+    L.control.layers(baseLayers, undefined, { collapsed: false }).addTo(map);
 
     showSidebarWithOptions();
 }
@@ -194,13 +177,13 @@ const setMap = async (lat = -34.5559, lng =  -64.0166) => {
 setMap();
 
 function addMarkerFilter({ provincia, localidad, tipo }) {
-    Object.values(markerGroups).forEach(group => group.clearLayers());
+    Object.values(groupTypeOrg).forEach(group => group.clearLayers());
     loadingGroup.addTo(map);
     filOrganizaciones(provincia, localidad, tipo)
         .then(data => {
             drawMarkerOrganizacion(data)
             map.removeLayer(loadingGroup);
-            Object.values(markerGroups).forEach(group => group.addTo(map));
+            Object.values(groupTypeOrg).forEach(group => group.addTo(map));
         })
 }
 
