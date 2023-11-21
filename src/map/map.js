@@ -1,7 +1,6 @@
 import { opcionesFiltros } from "./utils/opcionesFiltros.js";
 import { allOrganizaciones } from "./utils/allOrganizaciones.js";
 import { filOrganizaciones } from "./utils/filOrganizaciones.js";
-// import { data } from "./utils/mock.js";
 
 const map = L.map('map', {zoomControl: false});
 const markerGroup = L.layerGroup();
@@ -162,7 +161,6 @@ const setMap = async (lat = -34.5559, lng =  -64.0166) => {
         "Mapa Topográfico": baseTopograficoLayer
     };
     
-
     let zoomHome = L.Control.zoomHome();
     zoomHome.addTo(map);
 
