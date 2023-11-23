@@ -153,7 +153,7 @@ const setMap = async (lat = -34.5559, lng =  -64.0166) => {
     const baseTopograficoLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/mapabase_topo@EPSG%3A3857@png/{z}/{x}/{-y}.png');
 
     baseLayer.addTo(map);
-    map.attributionControl.setPrefix('Leaflet | &copy; <a href="https://www.ign.gob.ar/">IGN</a> contributors');
+    map.attributionControl.setPrefix('');
 
     const baseLayers = {
         "Mapa Clásico": baseLayer,
@@ -251,6 +251,7 @@ const agregarPanelFiltro = (filtros) => {
     };
 
     sidebar.addPanel(panelFiltro);
+    sidebar.open('panelFiltro');
 }
 
 function filtros() {
