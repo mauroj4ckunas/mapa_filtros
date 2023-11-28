@@ -254,6 +254,30 @@ const agregarPanelFiltro = (filtros) => {
     sidebar.open('panelFiltro');
 }
 
+function updateLocalidadesOptions(atributo, selected) {
+    const filteredLocalidades = Array.from(new Set(all.filter(item => item[atributo] === selected)
+                                    .map(item => item.localidad)
+                                ))
+    const filteredAsistencia = Array.from(new Set(all.filter(item => item[atributo] === selected)
+                                    .map(item => item.tipo_organizacion)))
+
+    const filteredProvincia = Array.from(new Set(all.filter(item => item[atributo] === selected)
+                                    .map(item => item.provincia)))
+                                    
+    const localidadesSelect = document.querySelector("#selectLocalidades");
+    if (atributo !== 'localidad') localidadesSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
+                                                                 ${filteredLocalidades.map(localidad => `<option value="${localidad}">${localidad}</option>`).join('')}
+                                                                 <option value="not" >Sacar Filtro</option>`;
+    const asistenciaSelect = document.querySelector("#selectAsistencia");
+    if (atributo !== 'tipo_organizacion') asistenciaSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
+                                                                        ${filteredAsistencia.map(tipo => `<option value="${tipo}">${tipo}</option>`).join('')}
+                                                                        <option value="not" >Sacar Filtro</option>`;
+    const provinciaSelect = document.querySelector("#selectProvincias");
+    if (atributo !== 'provincia') provinciaSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
+                                                               ${filteredProvincia.map(prov => `<option value="${prov}">${prov}</option>`).join('')}
+                                                               <option value="not" >Sacar Filtro</option>`;
+}
+
 function filtros() {
 
     const filtroElegida = {
@@ -331,17 +355,20 @@ function filtros() {
 
     if (allOptions.provincias.length > 0) document.querySelector("#selectProvincias").addEventListener("change", function (e) {
         filtroElegida.provincia = e.target.value = e.target.value === 'not' ? '' : e.target.value;
-        addMarkerFilter(filtroElegida)
+        addMarkerFilter(filtroElegida);
+        updateLocalidadesOptions('provincia', e.target.value);
     });
 
     if (allOptions.localidades.length > 0) document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
         filtroElegida.localidad = e.target.value = e.target.value === 'not' ? '' : e.target.value;
-        addMarkerFilter(filtroElegida)
+        addMarkerFilter(filtroElegida);
+        updateLocalidadesOptions('localidad', e.target.value);
     });
 
     if (allOptions.tipos.length > 0) document.querySelector("#selectAsistencia").addEventListener("change", function (e) {
         filtroElegida.tipo = e.target.value = e.target.value === 'not' ? '' : e.target.value;
-        addMarkerFilter(filtroElegida)
+        addMarkerFilter(filtroElegida);
+        updateLocalidadesOptions('tipo_organizacion', e.target.value);
     });
 
     document.querySelector("#verSegunFiltro").addEventListener("click", e => {
