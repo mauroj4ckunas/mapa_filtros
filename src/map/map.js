@@ -254,27 +254,29 @@ const agregarPanelFiltro = (filtros) => {
     sidebar.open('panelFiltro');
 }
 
-function updateLocalidadesOptions(atributo, selected) {
-    const filteredLocalidades = Array.from(new Set(all.filter(item => item[atributo] === selected)
+function updateLocalidadesOptions(atributo, filtroElegida) {
+    const filteredLocalidades = Array.from(new Set(all.filter(item => item[atributo] === filtroElegida[atributo])
                                     .map(item => item.localidad)
                                 ))
-    const filteredAsistencia = Array.from(new Set(all.filter(item => item[atributo] === selected)
+    const filteredAsistencia = Array.from(new Set(all.filter(item => item[atributo] === filtroElegida[atributo])
                                     .map(item => item.tipo_organizacion)))
 
-    const filteredProvincia = Array.from(new Set(all.filter(item => item[atributo] === selected)
+    const filteredProvincia = Array.from(new Set(all.filter(item => item[atributo] === filtroElegida[atributo])
                                     .map(item => item.provincia)))
-                                    
+                      
+                                
+        
     const localidadesSelect = document.querySelector("#selectLocalidades");
     if (atributo !== 'localidad') localidadesSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
-                                                                 ${filteredLocalidades.map(localidad => `<option value="${localidad}">${localidad}</option>`).join('')}
+                                                                 ${filteredLocalidades.map(localidad => `<option value="${localidad}" ${filtroElegida.localidad === localidad ? 'selected' : ""}>${localidad}</option>`).join('')}
                                                                  <option value="not" >Sacar Filtro</option>`;
     const asistenciaSelect = document.querySelector("#selectAsistencia");
     if (atributo !== 'tipo_organizacion') asistenciaSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
-                                                                        ${filteredAsistencia.map(tipo => `<option value="${tipo}">${tipo}</option>`).join('')}
+                                                                        ${filteredAsistencia.map(tipo => `<option value="${tipo}" ${filtroElegida.tipo === tipo ? 'selected' : ""}>${tipo}</option>`).join('')}
                                                                         <option value="not" >Sacar Filtro</option>`;
     const provinciaSelect = document.querySelector("#selectProvincias");
     if (atributo !== 'provincia') provinciaSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
-                                                               ${filteredProvincia.map(prov => `<option value="${prov}">${prov}</option>`).join('')}
+                                                               ${filteredProvincia.map(prov => `<option value="${prov}" ${filtroElegida.provincia === prov ? 'selected' : ""}>${prov}</option>`).join('')}
                                                                <option value="not" >Sacar Filtro</option>`;
 }
 
@@ -283,7 +285,7 @@ function filtros() {
     const filtroElegida = {
         provincia: "",
         localidad: "",
-        tipo: "",
+        tipo_organizacion: "",
     };
 
     const inputs = `
@@ -354,21 +356,21 @@ function filtros() {
     sidebar.addPanel(panelContent);
 
     if (allOptions.provincias.length > 0) document.querySelector("#selectProvincias").addEventListener("change", function (e) {
-        filtroElegida.provincia = e.target.value = e.target.value === 'not' ? '' : e.target.value;
+        filtroElegida.provincia = e.target.value === 'not' ? '' : e.target.value;
         addMarkerFilter(filtroElegida);
-        updateLocalidadesOptions('provincia', e.target.value);
+        e.target.value !== 'not' && updateLocalidadesOptions('provincia', filtroElegida);
     });
 
     if (allOptions.localidades.length > 0) document.querySelector("#selectLocalidades").addEventListener("change", function (e) {
-        filtroElegida.localidad = e.target.value = e.target.value === 'not' ? '' : e.target.value;
+        filtroElegida.localidad = e.target.value === 'not' ? '' : e.target.value;
         addMarkerFilter(filtroElegida);
-        updateLocalidadesOptions('localidad', e.target.value);
+        e.target.value !== 'not' && updateLocalidadesOptions('localidad', filtroElegida);
     });
 
     if (allOptions.tipos.length > 0) document.querySelector("#selectAsistencia").addEventListener("change", function (e) {
-        filtroElegida.tipo = e.target.value = e.target.value === 'not' ? '' : e.target.value;
+        filtroElegida.tipo_organizacion = e.target.value === 'not' ? '' : e.target.value;
         addMarkerFilter(filtroElegida);
-        updateLocalidadesOptions('tipo_organizacion', e.target.value);
+        e.target.value !== 'not' && updateLocalidadesOptions('tipo_organizacion', filtroElegida);
     });
 
     document.querySelector("#verSegunFiltro").addEventListener("click", e => {
