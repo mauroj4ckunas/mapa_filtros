@@ -196,7 +196,7 @@ const agregarPanelFiltro = (filtros) => {
     const dataFiltrada = all.filter(d => {
         return (filtros.provincia === '' || d.provincia === filtros.provincia) &&
                (filtros.localidad === '' || d.localidad === filtros.localidad) &&
-               (filtros.tipo === '' || d.tipo === filtros.tipo_organizacion);
+               (filtros.tipo_organizacion === '' || d.tipo === filtros.tipo_organizacion);
     });
 
     const items = dataFiltrada.reduce((acu, act) => {
