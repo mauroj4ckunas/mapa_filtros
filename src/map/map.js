@@ -268,11 +268,11 @@ function updateLocalidadesOptions(atributo, filtroElegida) {
                                 
         
     const localidadesSelect = document.querySelector("#selectLocalidades");
-    if (atributo !== 'localidad') localidadesSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
+    if (atributo !== 'localidad') localidadesSelect.innerHTML = `<option selected class="d-none">Elije una Localidad</option>
                                                                  ${filteredLocalidades.map(localidad => `<option value="${localidad}" ${filtroElegida.localidad === localidad ? 'selected' : ""}>${localidad}</option>`).join('')}
                                                                  <option value="not" >Sacar Filtro</option>`;
     const asistenciaSelect = document.querySelector("#selectAsistencia");
-    if (atributo !== 'tipo_organizacion') asistenciaSelect.innerHTML = `<option selected class="d-none">Elije una provincia</option>
+    if (atributo !== 'tipo_organizacion') asistenciaSelect.innerHTML = `<option selected class="d-none">Elije un tipo</option>
                                                                         ${filteredAsistencia.map(tipo => `<option value="${tipo}" ${filtroElegida.tipo === tipo ? 'selected' : ""}>${tipo}</option>`).join('')}
                                                                         <option value="not" >Sacar Filtro</option>`;
     const provinciaSelect = document.querySelector("#selectProvincias");
