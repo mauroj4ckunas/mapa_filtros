@@ -148,7 +148,8 @@ const showSidebarWithOptions = async () => {
 const setMap = async (lat = -34.5559, lng =  -64.0166) => {
     map.setView([lat, lng], 5);
 
-    const baseLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png');
+    // const baseLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/capabaseargenmap@EPSG%3A3857@png/{z}/{x}/{-y}.png');
+    const baseLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
     const baseOscuroLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/argenmap_oscuro@EPSG%3A3857@png/{z}/{x}/{-y}.png');
     const baseTopograficoLayer = L.tileLayer('https://wms.ign.gob.ar/geoserver/gwc/service/tms/1.0.0/mapabase_topo@EPSG%3A3857@png/{z}/{x}/{-y}.png');
 
@@ -196,9 +197,9 @@ const agregarPanelFiltro = (filtros) => {
     const dataFiltrada = all.filter(d => {
         return (filtros.provincia === '' || d.provincia === filtros.provincia) &&
                (filtros.localidad === '' || d.localidad === filtros.localidad) &&
-               (filtros.tipo_organizacion === '' || d.tipo === filtros.tipo_organizacion);
+               (filtros.tipo_organizacion === '' || d.tipo_organizacion === filtros.tipo_organizacion);
     });
-
+    console.log(dataFiltrada)
     const items = dataFiltrada.reduce((acu, act) => {
         return acu += `
             <tr>
@@ -219,7 +220,7 @@ const agregarPanelFiltro = (filtros) => {
     const filtrosSeleccionados = Object.entries(filtros).filter(([key, value]) => !!value)
 
     const listFiltros = filtrosSeleccionados.reduce((acu, act) => {
-        return acu += `<li class="list-group-item">${capitalize(act[0]) !== 'Tipo' ? capitalize(act[0]) : 'Tipo de Asistencia' }: ${act[1]}</li>`
+        return acu += `<li class="list-group-item">${capitalize(act[0]) !== 'Tipo_organizacion' ? capitalize(act[0]) : 'Tipo de Organización' }: ${act[1]}</li>`
     }, "");
 
     const list = `
