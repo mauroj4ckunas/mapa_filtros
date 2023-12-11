@@ -1,3 +1,4 @@
+"use strict";
 import { opcionesFiltros } from "./utils/opcionesFiltros.js";
 import { allOrganizaciones } from "./utils/allOrganizaciones.js";
 import { filOrganizaciones } from "./utils/filOrganizaciones.js";

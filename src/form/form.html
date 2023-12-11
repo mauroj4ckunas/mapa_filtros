@@ -13,9 +13,9 @@
             margin-bottom: 10px;
         }
 
-        .form-check-input {
-            width: 15px;  /* Ajusta según la necesidad */
-            height: 15px; /* Ajusta según la necesidad */
+        .form-check-input{
+            width: 15px; 
+            height: 15px;
             margin-right: 10px;
         }
         
@@ -39,11 +39,11 @@
                 </p>
             </div>
         </section>
-        <form class="border border-info rounded-sm p-3 m-3 shadow bg-white">
+        <form id="formRegistro" class="border border-info rounded-sm p-3 m-3 shadow bg-white">
             <!-- Nombre de la Organización -->
             <div class="form-group">
                 <label for="nombreOrganizacion">Nombre de la Organización</label>
-                <input type="text" class="form-control" id="nombreOrganizacion" placeholder="Ingrese el nombre">
+                <input required type="text" class="form-control" id="nombreOrganizacion" placeholder="Ingrese el nombre">
             </div>
 
             <!-- Provincia y Localidad -->
@@ -51,13 +51,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="provincia">Provincia</label>
-                        <input type="text" class="form-control" id="provincia" placeholder="Ingrese la provincia">
+                        <input required type="text" class="form-control" id="provincia" placeholder="Ingrese la provincia">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="localidad">Localidad</label>
-                        <input type="text" class="form-control" id="localidad" placeholder="Ingrese la localidad">
+                        <input required type="text" class="form-control" id="localidad" placeholder="Ingrese la localidad">
                     </div>
                 </div>
             </div>
@@ -65,37 +65,48 @@
             <!-- Tipo de Organización -->
             <div class="form-group">
                 <label for="tipoOrganizacion">Tipo de Organización</label>
-                <input type="text" class="form-control" id="tipoOrganizacion" placeholder="Ingrese el tipo de organización">
+                <select required class="form-control" id="tipoOrganizacion">
+                    <option value="">Seleccione un tipo</option>
+                    <option value="Religiosa">Religiosa</option>
+                    <option value="Gubernamental">Gubernamental</option>
+                    <option value="Comunitaria">Comunitaria</option>
+                    <option value="Social y o politica">Social y/o Política</option>
+                    <option value="Asociacion Civil">Asociación Civil</option>
+                    <option value="Social y/o Politica">Social y/o Política</option>
+                </select>
             </div>
 
             <!-- Dirección -->
             <div class="form-group">
                 <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección">
+                <input required type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección">
             </div>
 
             <!-- Número de Contacto -->
             <div class="form-group">
                 <label for="numeroContacto">Número de Contacto</label>
-                <input type="tel" class="form-control" id="numeroContacto" placeholder="Ingrese el número de contacto">
+                <input required type="tel" class="form-control" id="numeroContacto" placeholder="Ingrese el número de contacto">
             </div>
 
             <!-- Email -->
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Ingrese el email">
+                <input required type="email" class="form-control" id="email" placeholder="Ingrese el email">
             </div>
 
             <!-- Redes Sociales -->
             <div class="form-group">
                 <label for="redes">Redes Sociales</label>
-                <input type="text" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
+                <input required type="text" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
             </div>
 
             <!-- Información Adicional -->
             <div class="form-group">
                 <label for="infoAdicional">Información Adicional</label>
-                <textarea class="form-control" id="infoAdicional" rows="3"></textarea>
+                <textarea class="form-control" id="infoAdicional" rows="3" placeholder="Ingresar información adicional"></textarea>
+                <div class="">
+                    <input type="checkbox" name="" id="sinInfoAdicional" /> <label for="sinInfoAdicional"> Sin información adicional</label>
+                </div>
             </div>
 
             <!-- Tipo de Asistencia -->
@@ -104,35 +115,35 @@
                     <label class="d-block text-start">Tipo de Asistencia</label>
                     <!-- Alojamiento -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input" type="checkbox" value="Alojamiento" id="alojamiento">
+                        <input class="form-check-input alojamiento-check" type="checkbox" value="Alojamiento" id="alojamiento">
                         <label class="form-check-label" for="alojamiento">
                             Alojamiento
                         </label>
                     </div>
                     <!-- Higiene -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input" type="checkbox" value="Higiene" id="higiene">
+                        <input class="form-check-input higiene-check" type="checkbox" value="Higiene" id="higiene">
                         <label class="form-check-label" for="higiene">
                             Higiene
                         </label>
                     </div>
                     <!-- Salud -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input" type="checkbox" value="Salud" id="salud">
+                        <input class="form-check-input salud-check" type="checkbox" value="Salud" id="salud">
                         <label class="form-check-label" for="salud">
                             Salud
                         </label>
                     </div>
                     <!-- Alimentación -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input" type="checkbox" value="Alimentación" id="alimentacion">
+                        <input class="form-check-input alimentacion-check" type="checkbox" value="Alimentación" id="alimentacion">
                         <label class="form-check-label" for="alimentacion">
                             Alimentación
                         </label>
                     </div>
                     <!-- Recreación -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input" type="checkbox" value="Recreación" id="recreacion">
+                        <input class="form-check-input recreacion" type="checkbox" value="Recreación" id="recreacion">
                         <label class="form-check-label" for="recreacion">
                             Recreación
                         </label>
@@ -145,7 +156,7 @@
                     
                         <!-- Mujeres Cis -->
                         <div class="form-check form-check-custom ml-3">
-                            <input class="form-check-input" type="checkbox" value="Mujeres Cis" id="mujeresCis">
+                            <input class="form-check-input mujeres-check" type="checkbox" value="Mujeres Cis" id="mujeresCis">
                             <label class="form-check-label" for="mujeresCis">
                                 Mujeres Cis
                             </label>
@@ -153,7 +164,7 @@
                     
                         <!-- Varones Cis -->
                         <div class="form-check form-check-custom ml-3">
-                            <input class="form-check-input" type="checkbox" value="Varones Cis" id="varonesCis">
+                            <input class="form-check-input varones-check" type="checkbox" value="Varones Cis" id="varonesCis">
                             <label class="form-check-label" for="varonesCis">
                                 Varones Cis
                             </label>
@@ -161,7 +172,7 @@
                     
                         <!-- LGBTIQ+ -->
                         <div class="form-check form-check-custom ml-3">
-                            <input class="form-check-input" type="checkbox" value="LGBTIQ+" id="lgbtiqPlus">
+                            <input class="form-check-input lgbt-check" type="checkbox" value="LGBTIQ+" id="lgbtiqPlus">
                             <label class="form-check-label" for="lgbtiqPlus">
                                 LGBTIQ+
                             </label>
@@ -173,13 +184,13 @@
             <!-- Rango de Edades -->
             <div class="form-group">
                 <label for="edades">Rango de Edades</label>
-                <input type="text" class="form-control" id="edades" placeholder="Ingrese el rango de edades">
+                <input required type="text" class="form-control" id="edades" placeholder="Ingrese el rango de edades">
             </div>
 
             <!-- Días y Horarios -->
             <div class="form-group">
                 <label for="diasHorarios">Días y Horarios</label>
-                <input type="text" class="form-control" id="diasHorarios" placeholder="Ingrese días y horarios de atención">
+                <input required type="text" class="form-control" id="diasHorarios" placeholder="Ingrese días y horarios de atención">
             </div>
             
             <div>
@@ -187,13 +198,111 @@
                     Acepto que la información brindada en el formulario sobre la organización /servicio del que formo parte sea utilizada y publicada en la plataforma virtual de la UNTREF:
                 </div>
                 <!-- Botón de Envío -->
-                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button type="submit" class="btn btn-primary btn-registrar">Registrar</button>
             </div>
         </form>
+
+        <div style="height: 30px; width: 100px;" id="map"></div>
+
     </main>
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+            key: "AIzaSyCFzJndVUbWJ5K4Q5XqQXVYo-sfPSHWkMo",
+            // Add other bootstrap parameters as needed, using camel case.
+            // Use the 'v' parameter to indicate the version to load (alpha, beta, weekly, etc.)
+        });
+        let map;
+        let marker;
+        let geocoder;
+        let responseDiv;
+        let response;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: { lat: -34.397, lng: 150.644 },
+                mapTypeControl: false,
+            });
+            geocoder = new google.maps.Geocoder();
+
+            const inputText = document.createElement("input");
+
+            inputText.type = "text";
+            inputText.placeholder = "Enter a location";
+
+            const submitButton = document.createElement("input");
+
+            submitButton.type = "button";
+            submitButton.value = "Geocode";
+            submitButton.classList.add("button", "button-primary");
+
+            const clearButton = document.createElement("input");
+
+            clearButton.type = "button";
+            clearButton.value = "Clear";
+            clearButton.classList.add("button", "button-secondary");
+            response = document.createElement("pre");
+            response.id = "response";
+            response.innerText = "";
+            responseDiv = document.createElement("div");
+            responseDiv.id = "response-container";
+            responseDiv.appendChild(response);
+
+            const instructionsElement = document.createElement("p");
+
+            instructionsElement.id = "instructions";
+            instructionsElement.innerHTML =
+                "<strong>Instructions</strong>: Enter an address in the textbox to geocode or click on the map to reverse geocode.";
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(inputText);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(submitButton);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(clearButton);
+                map.controls[google.maps.ControlPosition.LEFT_TOP].push(instructionsElement);
+                map.controls[google.maps.ControlPosition.LEFT_TOP].push(responseDiv);
+                marker = new google.maps.Marker({
+                    map,
+            });
+                map.addListener("click", (e) => {
+                    geocode({ location: e.latLng });
+            });
+                submitButton.addEventListener("click", () =>
+                    geocode({ address: inputText.value }),
+            );
+                clearButton.addEventListener("click", () => {
+                    clear();
+            });
+                clear();
+        }
+
+        function clear() {
+            marker.setMap(null);
+            responseDiv.style.display = "none";
+        }
+
+        function geocode(request) {
+            clear();
+            geocoder
+                .geocode(request)
+                .then((result) => {
+                const { results } = result;
+
+                map.setCenter(results[0].geometry.location);
+                marker.setPosition(results[0].geometry.location);
+                marker.setMap(map);
+                responseDiv.style.display = "block";
+                response.innerText = JSON.stringify(result, null, 2);
+                return results;
+                })
+                .catch((e) => {
+                alert("Geocode was not successful for the following reason: " + e);
+                });
+        }
+
+        window.initMap = initMap;
+    </script>
+    <script src="./form.js"></script>
 </body>
 </html>
