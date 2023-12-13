@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
             genero_lbgtiq: document.getElementById('lgbtiqPlus').checked ? 1 : 0,
             edades: document.getElementById('edades').value,
             dias_horarios: document.getElementById('diasHorarios').value,
-            latitud: latitud.value,
-            longitud: longitud.value,
+            latitud: Number(latitud.value),
+            longitud: Number(longitud.value),
         };
 
         console.log(formData);
