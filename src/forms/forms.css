@@ -1,0 +1,19 @@
+
+.subtitulo {
+    font-weight: bolder;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.contenedor-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor-btn button {
+    width: 50%;
+    font-weight: bold;
+}

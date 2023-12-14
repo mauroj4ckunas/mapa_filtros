@@ -1,0 +1,94 @@
+
+.form-check-custom {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-check-input{
+    width: 15px; 
+    height: 15px;
+    margin-right: 10px;
+}
+
+.noShow {
+    display: none;
+}
+
+.opciones {
+    background-color: white;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 5px;
+    position: absolute;
+    z-index: 10;
+}
+
+.opciones .opcion:first-child {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.opciones .opcion:last-child {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.opciones .opcion {
+    min-height: 35px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid;
+}
+
+.opciones .opcion:hover {
+    background-color: cornflowerblue;
+    cursor: pointer;
+}
+
+#contenedor-direccion {
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    margin: 2px 0 20px 0;
+    border-radius: 5px;
+}
+
+/* Estado inicial (oculto) */
+.map-hidden {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease-in-out;
+}
+
+/* Estado visible */
+.map-visible {
+    height: 300px; 
+    transition: height 0.5s ease-in-out;
+}
+
+#checkbox-container {
+    display: flex;
+    align-items: center; 
+    margin: 10px;
+    background-color: white;
+    padding:  0 4px 0 4px;
+    border-radius: 10px;
+}
+
+#checkbox-container input {
+    width: 12px;
+    height: 12px;
+}
+
+#checkbox-container label {
+    margin-left: 3px;
+    margin-top: 8px;
+    font-weight: bold;
+    font-size:small;
+}
