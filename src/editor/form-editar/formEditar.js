@@ -48,13 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('latitud').value = organizacionAValidar.latitud;
     document.getElementById('longitud').value = organizacionAValidar.longitud;
 
-    const btnRechazar = document.querySelector('.btn-rechazar');
+    const btnVolver = document.querySelector('.btn-volver');
 
-    btnRechazar.addEventListener('click', function() {
-        alert('Estás rechazando la solicitud.');
+    btnVolver.addEventListener('click', function() {
+        alert('Estás volviendo.');
     });
 
-    document.getElementById('formAValidar').addEventListener('submit', function(event) {
+    document.getElementById('formAEditar').addEventListener('submit', function(event) {
         event.preventDefault(); // Previene el envío normal del formulario
 
         const latitud = document.getElementById('latitud');
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         console.log(formData);
-        alert("Está validando el formulario.")
+        alert("Está editando el formulario.")
     });
 });
 

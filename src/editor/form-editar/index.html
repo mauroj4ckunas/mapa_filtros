@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="../../../node_modules/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" href="formValidar.css">
+    <link rel="stylesheet" href="formEditar.css">
 
     <title>Validar Solicitud</title>
 </head>
@@ -19,17 +19,17 @@
                 <p class="text-center font-weight-bold h4">OBSERVATORIO NACIONAL DE POLÍTICAS PÚBLICAS SOBRE PERSONAS EN SITUACIÓN DE CALLE</p>
             </div>
             <div class=" my-4 border p-3 m-3 bg-white rounded-lg bg- shadow-sm">
-                <h4 class="text-center">Validación de los datos</h4>
+                <h4 class="text-center">Edición de los datos</h4>
                 <p class="text-center h6 text-secondary">
-                    Aquí podrás ver los datos que fueron cargados, y al final se podrá decidir si validarlo o rechazarlo.
+                    Aquí podrás editar los datos que fueron cargados, y guardar el cambio.
                 </p>
             </div>
         </section>
-        <form id="formRegistro" class="border border-info rounded-sm p-3 m-3 shadow bg-white">
+        <form id="formAEditar" class="border border-info rounded-sm p-3 m-3 shadow bg-white">
             <!-- Nombre de la Organización -->
             <div class="form-group">
                 <label for="nombreOrganizacion">Nombre de la Organización</label>
-                <input required readonly type="text" class="form-control" id="nombreOrganizacion" placeholder="Ingrese el nombre">
+                <input required  type="text" class="form-control" id="nombreOrganizacion" placeholder="Ingrese el nombre">
             </div>
 
             <!-- Provincia y Localidad -->
@@ -37,13 +37,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="provincia">Provincia</label>
-                        <input required readonly type="text" class="form-control" id="provincia" placeholder="Ingrese la provincia">
+                        <input required  type="text" class="form-control" id="provincia" placeholder="Ingrese la provincia">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="localidad">Localidad</label>
-                        <input required readonly type="text" class="form-control" id="localidad" placeholder="Ingrese la localidad">
+                        <input required  type="text" class="form-control" id="localidad" placeholder="Ingrese la localidad">
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
             <!-- Tipo de Organización -->
             <div class="form-group">
                 <label for="tipoOrganizacion">Tipo de Organización</label>
-                <select required readonly class="form-control" id="tipoOrganizacion">
+                <select required  class="form-control" id="tipoOrganizacion">
                     <option value="">Seleccione un tipo</option>
                     <option value="Religiosa">Religiosa</option>
                     <option value="Gubernamental">Gubernamental</option>
@@ -72,10 +72,11 @@
                 <label for="direccion">Dirección <span style="color: rgb(175, 172, 172)">(debe seleccionar alguna de las opcioens que aparecerán)</span></label>
                 <div class="d-flex">
                     <div style="width: 100%;" id="contenedor-direccion">
-                        <input required readonly type="text" autocomplete="off" class="form-control" id="direccion" placeholder="Ingrese la dirección">
+                        <input required  type="text" autocomplete="off" class="form-control" id="direccion" placeholder="Ingrese la dirección">
                         <div id="opciones" class="opciones">
                         </div>
                     </div>
+                    <button type="button" id="btn-borrar" class="btn btn-danger" style="margin-left: 10px;">Borrar</button>
                 </div>
             </div>
 
@@ -84,27 +85,27 @@
             <!-- Número de Contacto -->
             <div class="form-group">
                 <label for="numeroContacto">Número de Contacto</label>
-                <input required readonly type="tel" class="form-control" id="numeroContacto" placeholder="Ingrese el número de contacto">
+                <input required  type="tel" class="form-control" id="numeroContacto" placeholder="Ingrese el número de contacto">
             </div>
 
             <!-- Email -->
             <div class="form-group">
                 <label for="email">Email</label>
-                <input required readonly type="email" class="form-control" id="email" placeholder="Ingrese el email">
+                <input required  type="email" class="form-control" id="email" placeholder="Ingrese el email">
             </div>
 
             <!-- Redes Sociales -->
             <div class="form-group">
                 <label for="redes">Redes Sociales</label>
-                <input required readonly type="text" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
+                <input required  type="text" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
             </div>
 
             <!-- Información Adicional -->
             <div class="form-group">
                 <label for="infoAdicional">Información Adicional</label>
-                <textarea readonly class="form-control" id="infoAdicional" rows="3" placeholder="Ingresar información adicional"></textarea>
+                <textarea  class="form-control" id="infoAdicional" rows="3" placeholder="Ingresar información adicional"></textarea>
                 <div class="">
-                    <input type="checkbox" disabled name="" id="sinInfoAdicional" /> <label for="sinInfoAdicional"> Sin información adicional</label>
+                    <input type="checkbox"  name="" id="sinInfoAdicional" /> <label for="sinInfoAdicional"> Sin información adicional</label>
                 </div>
             </div>
 
@@ -114,35 +115,35 @@
                     <label class="d-block text-start">Tipo de Asistencia</label>
                     <!-- Alojamiento -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input alojamiento-check" type="checkbox" disabled value="Alojamiento" id="alojamiento">
+                        <input class="form-check-input alojamiento-check" type="checkbox"  value="Alojamiento" id="alojamiento">
                         <label class="form-check-label" for="alojamiento">
                             Alojamiento
                         </label>
                     </div>
                     <!-- Higiene -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input higiene-check" type="checkbox" disabled value="Higiene" id="higiene">
+                        <input class="form-check-input higiene-check" type="checkbox"  value="Higiene" id="higiene">
                         <label class="form-check-label" for="higiene">
                             Higiene
                         </label>
                     </div>
                     <!-- Salud -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input salud-check" type="checkbox" disabled value="Salud" id="salud">
+                        <input class="form-check-input salud-check" type="checkbox"  value="Salud" id="salud">
                         <label class="form-check-label" for="salud">
                             Salud
                         </label>
                     </div>
                     <!-- Alimentación -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input alimentacion-check" type="checkbox" disabled value="Alimentación" id="alimentacion">
+                        <input class="form-check-input alimentacion-check" type="checkbox"  value="Alimentación" id="alimentacion">
                         <label class="form-check-label" for="alimentacion">
                             Alimentación
                         </label>
                     </div>
                     <!-- Recreación -->
                     <div class="form-check form-check-custom ml-3">
-                        <input class="form-check-input recreacion" type="checkbox" disabled value="Recreación" id="recreacion">
+                        <input class="form-check-input recreacion" type="checkbox"  value="Recreación" id="recreacion">
                         <label class="form-check-label" for="recreacion">
                             Recreación
                         </label>
@@ -155,7 +156,7 @@
                     
                         <!-- Mujeres Cis -->
                         <div class="form-check form-check-custom ml-3">
-                            <input class="form-check-input mujeres-check" type="checkbox" disabled value="Mujeres Cis" id="mujeresCis">
+                            <input class="form-check-input mujeres-check" type="checkbox"  value="Mujeres Cis" id="mujeresCis">
                             <label class="form-check-label" for="mujeresCis">
                                 Mujeres Cis
                             </label>
@@ -163,7 +164,7 @@
                     
                         <!-- Varones Cis -->
                         <div class="form-check form-check-custom ml-3">
-                            <input class="form-check-input varones-check" type="checkbox" disabled value="Varones Cis" id="varonesCis">
+                            <input class="form-check-input varones-check" type="checkbox"  value="Varones Cis" id="varonesCis">
                             <label class="form-check-label" for="varonesCis">
                                 Varones Cis
                             </label>
@@ -171,7 +172,7 @@
                     
                         <!-- LGBTIQ+ -->
                         <div class="form-check form-check-custom ml-3">
-                            <input class="form-check-input lgbt-check" type="checkbox" disabled value="LGBTIQ+" id="lgbtiqPlus">
+                            <input class="form-check-input lgbt-check" type="checkbox"  value="LGBTIQ+" id="lgbtiqPlus">
                             <label class="form-check-label" for="lgbtiqPlus">
                                 LGBTIQ+
                             </label>
@@ -183,19 +184,19 @@
             <!-- Rango de Edades -->
             <div class="form-group">
                 <label for="edades">Rango de Edades</label>
-                <input required readonly type="text" class="form-control" id="edades" placeholder="Ingrese el rango de edades">
+                <input required  type="text" class="form-control" id="edades" placeholder="Ingrese el rango de edades">
             </div>
 
             <!-- Días y Horarios -->
             <div class="form-group">
                 <label for="diasHorarios">Días y Horarios</label>
-                <input required readonly type="text" class="form-control" id="diasHorarios" placeholder="Ingrese días y horarios de atención">
+                <input required  type="text" class="form-control" id="diasHorarios" placeholder="Ingrese días y horarios de atención">
             </div>
             
             <div style="display: flex; justify-content: space-around; align-items: center;">
                 <!-- Botón de Validación -->
-                <button type="button" class="btn btn-success btn-validar">Validar</button>
-                <button type="button" class="btn btn-danger btn-rechazar">Rechazar</button>
+                <button type="submit" class="btn btn-success btn-guardar">Guardar cambios</button>
+                <button type="button" class="btn btn-primary btn-volver">Volver</button>
             </div>
         </form>
 
@@ -208,6 +209,6 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFzJndVUbWJ5K4Q5XqQXVYo-sfPSHWkMo&callback=initMap&v=weekly"
         defer
     ></script>
-    <script src="./formValidar.js"></script>
+    <script src="./formEditar.js"></script>
 </body>
 </html>

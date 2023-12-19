@@ -71,7 +71,7 @@ const drawMarkerOrganizacion = (organizaciones) => {
                         ${d.direccion ? `<p class="card-text"><i class="fa fa-home"></i> <span class="font-weight-bold text-info">Dirección</span>: ${d.direccion}</p>` : ''}
                         ${d.nro_contacto ? `<p class="card-text"><i class="fa fa-phone"></i> <span class="font-weight-bold text-info">Número</span>: ${d.nro_contacto}</p>` : ''}
                         ${d.email ? `<p class="card-text"><i class="fa fa-envelope"></i> <span class="font-weight-bold text-info">Email</span>: ${d.email}</p>` : ''}
-                        ${d.redes ? `<p class="card-text"><i class="fa fa-hashtag"></i> <span class="font-weight-bold text-info">Redes</span>: ${d.redes}</p>` : ''}
+                        ${d.redes ? `<p class="card-text"><i class="fa fa-hashtag"></i> <span class="font-weight-bold text-info">Redes</span>: <a href="${d.redes}" target="_blank">${d.redes}</a></p>` : ''}
                         ${d.info_adicional ? `<p class="card-text"><i class="fa fa-info-circle"></i> <span class="font-weight-bold text-info">Información Adicional</span>: ${d.info_adicional}</p>` : ''}
                         <p class="card-text"><i class="fa fa-handshake-o"></i> <span class="font-weight-bold text-info">Tipo de Asistencia</span>: ${tiposAsistencia({
                             asistencia_alimentacion: d.asistencia_alimentacion,
