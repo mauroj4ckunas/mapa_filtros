@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><span class="subtitulo">Tipo de Organización</span>: ${org.tipo_organizacion}</p>
             <p><span class="subtitulo">Dirección</span>: ${org.direccion}</p>
             <div class="contenedor-btn">
-                <button class="btn btn-primary">Validar</button>
+                <button class="btn btn-primary" onclick="guardarEnSessionStorage(${org.id})">Validar</button>
             </div>
         `;
 
@@ -172,3 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function guardarEnSessionStorage(id) {
+    const organizacionValidar = organizacionesMock.find(org => org.id === id);
+    sessionStorage.setItem('organizacion-validar', JSON.stringify(organizacionValidar));
+    window.location.href = '/src/validador/form-validar/index.html';
+}

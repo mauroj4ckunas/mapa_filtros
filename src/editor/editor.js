@@ -20,8 +20,8 @@ const organizacionesMock = [
         genero_lbgtiq: 0,
         edades: 'Todas las edades',
         dias_horarios: 'Lunes a Viernes de 9 a 18 hs',
-        latitud: -34.92145,
-        longitud: -57.95433,
+        latitud: "-34.92145",
+        longitud: "-57.95433",
     },
     {
         id: 2,
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p><span class="subtitulo">Tipo de Organización</span>: ${org.tipo_organizacion}</p>
             <p><span class="subtitulo">Dirección</span>: ${org.direccion}</p>
             <div class="contenedor-btn">
-                <button class="btn btn-success">Editar</button>
+                <button class="btn btn-success" onclick="guardarEnSessionStorage(${org.id})">Editar</button>
             </div>
         `;
 
@@ -172,3 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+
+function guardarEnSessionStorage(id) {
+    const organizacionEditar = organizacionesMock.find(org => org.id === id);
+    sessionStorage.setItem('organizacion-editar', JSON.stringify(organizacionEditar));
+    window.location.href = '/src/editor/form-editar/index.html';
+}

@@ -1,0 +1,11 @@
+.form-check-custom {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-check-input{
+    width: 15px; 
+    height: 15px;
+    margin-right: 10px;
+}

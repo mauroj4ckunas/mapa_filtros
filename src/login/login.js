@@ -1,5 +1,10 @@
 
-document.addEventListener('DOMContentLoaded', function() {    
+document.addEventListener('DOMContentLoaded', function() {
+    const usuario = sessionStorage.getItem("usuario");
+    if (usuario) {
+        window.location.href = "/src/admin/index.html";
+        return;
+    }
     document.getElementById('formLogin').addEventListener('submit', function(event) {
         event.preventDefault(); 
         const user = document.getElementById('usuario').value;
@@ -15,7 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
             password: password,
         };
 
-        console.log(loginData);
-        alert("Se está logeando.")
+        sessionStorage.setItem("usuario", JSON.stringify(loginData));
+
+        window.location.href = "/src/admin/index.html";
     });
 });

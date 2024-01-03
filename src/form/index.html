@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../index.css">
     <link rel="stylesheet" href="form.css">
 
     <title>Enviar Solicitud</title>
 </head>
 <body class="bg-light">
-
-
+    <nav>
+        <div id="titulo"><a href="https://onpsc.untref.edu.ar/es/home" id="pag-of" title="Página Principal" class="text-decoration-none">O N P S C</a></div>
+        <div id="paginas">
+            <span><a href="/src/map/index.html" class="text-decoration-none">Mapa</a></span>
+            <span><a href="/src/form/index.html" class="text-decoration-none">Agregar Organización</a></span>
+            <span><a href="#" id="registros-btn" class="text-decoration-none">Registros</a></span>
+        </div>
+    </nav>
     <main class="container mt-5">
         <section class="my-4">
             <div>
@@ -211,6 +218,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFzJndVUbWJ5K4Q5XqQXVYo-sfPSHWkMo&callback=initMap&v=weekly"
         defer
     ></script>
+    <script src="../registro-login.js"></script>
     <script src="./form.js"></script>
 </body>
 </html>

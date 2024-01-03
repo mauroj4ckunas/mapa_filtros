@@ -1,27 +1,36 @@
-const organizacionAValidar = {
-    id: 1,
-    nombre_organizacion: 'Fundación Ayuda',
-    provincia: 'Buenos Aires',
-    localidad: 'La Plata',
-    tipo_organizacion: 'Comunitaria',
-    direccion: 'Calle Falsa 123',
-    nro_contacto: '1122334455',
-    email: 'contacto@fundacionayuda.org',
-    redes: 'facebook.com/fundacionayuda',
-    info_adicional: 'Brindamos asistencia a personas en situación de calle.',
-    asistencia_alojamiento: 1,
-    asistencia_higiene: 1,
-    asistencia_salud: 0,
-    asistencia_alimentacion: 1,
-    asistencia_recreacion: 0,
-    genero_mujeres_cis: 1,
-    genero_varones_cis: 1,
-    genero_lbgtiq: 0,
-    edades: 'Todas las edades',
-    dias_horarios: 'Lunes a Viernes de 9 a 18 hs',
-    latitud: -34.92145,
-    longitud: -57.95433,
-};
+// const organizacionAValidar = {
+//     id: 1,
+//     nombre_organizacion: 'Fundación Ayuda',
+//     provincia: 'Buenos Aires',
+//     localidad: 'La Plata',
+//     tipo_organizacion: 'Comunitaria',
+//     direccion: 'Calle Falsa 123',
+//     nro_contacto: '1122334455',
+//     email: 'contacto@fundacionayuda.org',
+//     redes: 'facebook.com/fundacionayuda',
+//     info_adicional: 'Brindamos asistencia a personas en situación de calle.',
+//     asistencia_alojamiento: 1,
+//     asistencia_higiene: 1,
+//     asistencia_salud: 0,
+//     asistencia_alimentacion: 1,
+//     asistencia_recreacion: 0,
+//     genero_mujeres_cis: 1,
+//     genero_varones_cis: 1,
+//     genero_lbgtiq: 0,
+//     edades: 'Todas las edades',
+//     dias_horarios: 'Lunes a Viernes de 9 a 18 hs',
+//     latitud: -34.92145,
+//     longitud: -57.95433,
+// };
+
+const orgJSON = sessionStorage.getItem("organizacion-validar");
+
+if (!orgJSON) {
+  window.location.href = "/src/admin/index.html";
+  alert("Elija un registro para validar.");
+}
+
+const organizacionAValidar = JSON.parse(orgJSON);
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -51,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnRechazar = document.querySelector('.btn-rechazar');
 
     btnRechazar.addEventListener('click', function() {
+        sessionStorage.removeItem("organizacion-validar");
+        window.location.href = "/src/validador/index.html";
         alert('Estás rechazando la solicitud.');
     });
 
@@ -90,7 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
             longitud: Number(longitud.value),
         };
 
-        console.log(formData);
+        sessionStorage.removeItem("organizacion-validar");
+        window.location.href = "/src/validador/index.html";
         alert("Está validando el formulario.")
     });
 });

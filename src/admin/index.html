@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../../../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../index.css">
-    <link rel="stylesheet" href="editor.css">
+    <link rel="stylesheet" href="./admin.css">
 
-    <title>Formularios cargados</title>
+    <title>Validar Solicitud</title>
 </head>
 <body class="bg-light">
     <nav>
@@ -25,27 +25,21 @@
                 <h2 class="text-center"><a href="https://onpsc.untref.edu.ar/es/home" target="_blank" title="Página Principal" class="bg-secondary text-light px-2 rounded-sm text-decoration-none">ONPSC</a></h2>
                 <p class="text-center font-weight-bold h4">OBSERVATORIO NACIONAL DE POLÍTICAS PÚBLICAS SOBRE PERSONAS EN SITUACIÓN DE CALLE</p>
             </div>
-            <div class=" my-4 border p-3 m-3 bg-white rounded-lg bg- shadow-sm">
-                <h4 class="text-center">Registro de formularios cargados</h4>
+            <div class="my-4 border p-3 m-3 bg-white rounded-lg bg-shadow-sm">
+                <h4 class="text-center">Panel de administrador</h4>
                 <p class="text-center h6 text-secondary">
-                    En esta página podrá editar el formulario que seleccione.
+                    Aquí podrás ir a las páginas de administrador de formularios. Podrás editar y validar los registros cargados. 
                 </p>
+                <div class="text-center mt-4 mb-2">
+                    <a href="/src/editor/index.html" class="btn btn-primary mx-3 px-4 py-2">Editar Formularios</a>
+                    <a href="/src/validador/index.html" class="btn btn-success mx-3 px-4 py-2">Validar Formularios</a>
+                </div>
             </div>
         </section>
-        <section class="border border-info rounded-sm p-3 m-3 shadow bg-white">
-            <div class="row">
-                <div class="col-md-6" id="listado1"></div>
-                <div class="col-md-6" id="listado2"></div>
-            </div>
-        </section>
-
     </main>
-
-
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <script src="../validar-log.js"></script>
     <script src="../registro-login.js"></script>
-    <script src="./editor.js"></script>
 </body>
 </html>

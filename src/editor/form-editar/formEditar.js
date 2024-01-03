@@ -1,56 +1,67 @@
-const organizacionAValidar = {
-    id: 1,
-    nombre_organizacion: 'Fundación Ayuda',
-    provincia: 'Buenos Aires',
-    localidad: 'La Plata',
-    tipo_organizacion: 'Comunitaria',
-    direccion: 'Calle Falsa 123',
-    nro_contacto: '1122334455',
-    email: 'contacto@fundacionayuda.org',
-    redes: 'facebook.com/fundacionayuda',
-    info_adicional: 'Brindamos asistencia a personas en situación de calle.',
-    asistencia_alojamiento: 1,
-    asistencia_higiene: 1,
-    asistencia_salud: 0,
-    asistencia_alimentacion: 1,
-    asistencia_recreacion: 0,
-    genero_mujeres_cis: 1,
-    genero_varones_cis: 1,
-    genero_lbgtiq: 0,
-    edades: 'Todas las edades',
-    dias_horarios: 'Lunes a Viernes de 9 a 18 hs',
-    latitud: -34.92145,
-    longitud: -57.95433,
-};
+// const organizacionAEditar = {
+//     id: 1,
+//     nombre_organizacion: 'Fundación Ayuda',
+//     provincia: 'Buenos Aires',
+//     localidad: 'La Plata',
+//     tipo_organizacion: 'Comunitaria',
+//     direccion: 'Calle Falsa 123',
+//     nro_contacto: '1122334455',
+//     email: 'contacto@fundacionayuda.org',
+//     redes: 'facebook.com/fundacionayuda',
+//     info_adicional: 'Brindamos asistencia a personas en situación de calle.',
+//     asistencia_alojamiento: 1,
+//     asistencia_higiene: 1,
+//     asistencia_salud: 0,
+//     asistencia_alimentacion: 1,
+//     asistencia_recreacion: 0,
+//     genero_mujeres_cis: 1,
+//     genero_varones_cis: 1,
+//     genero_lbgtiq: 0,
+//     edades: 'Todas las edades',
+//     dias_horarios: 'Lunes a Viernes de 9 a 18 hs',
+//     latitud: -34.92145,
+//     longitud: -57.95433,
+// };
+
+const orgJSON = sessionStorage.getItem("organizacion-editar");
+
+if (!orgJSON) {
+  window.location.href = "/src/admin/index.html";
+  alert("Elija un registro para editar.");
+}
+
+const organizacionAEditar = JSON.parse(orgJSON);
 
 document.addEventListener('DOMContentLoaded', function() {
 
     // Asignar valores a los campos del formulario
-    document.getElementById('nombreOrganizacion').value = organizacionAValidar.nombre_organizacion;
-    document.getElementById('provincia').value = organizacionAValidar.provincia;
-    document.getElementById('localidad').value = organizacionAValidar.localidad;
-    document.getElementById('tipoOrganizacion').value = organizacionAValidar.tipo_organizacion;
-    document.getElementById('direccion').value = organizacionAValidar.direccion;
-    document.getElementById('numeroContacto').value = organizacionAValidar.nro_contacto;
-    document.getElementById('email').value = organizacionAValidar.email;
-    document.getElementById('redes').value = organizacionAValidar.redes;
-    document.getElementById('infoAdicional').value = organizacionAValidar.info_adicional;
-    document.getElementById('alojamiento').checked = !!organizacionAValidar.asistencia_alojamiento;
-    document.getElementById('higiene').checked = !!organizacionAValidar.asistencia_higiene;
-    document.getElementById('salud').checked = !!organizacionAValidar.asistencia_salud;
-    document.getElementById('alimentacion').checked = !!organizacionAValidar.asistencia_alimentacion;
-    document.getElementById('recreacion').checked = !!organizacionAValidar.asistencia_recreacion;
-    document.getElementById('mujeresCis').checked = !!organizacionAValidar.genero_mujeres_cis;
-    document.getElementById('varonesCis').checked = !!organizacionAValidar.genero_varones_cis;
-    document.getElementById('lgbtiqPlus').checked = !!organizacionAValidar.genero_lbgtiq;
-    document.getElementById('edades').value = organizacionAValidar.edades;
-    document.getElementById('diasHorarios').value = organizacionAValidar.dias_horarios;
-    document.getElementById('latitud').value = organizacionAValidar.latitud;
-    document.getElementById('longitud').value = organizacionAValidar.longitud;
+    document.getElementById('nombreOrganizacion').value = organizacionAEditar.nombre_organizacion;
+    document.getElementById('provincia').value = organizacionAEditar.provincia;
+    document.getElementById('localidad').value = organizacionAEditar.localidad;
+    document.getElementById('tipoOrganizacion').value = organizacionAEditar.tipo_organizacion;
+    document.getElementById('direccion').value = organizacionAEditar.direccion;
+    document.getElementById('numeroContacto').value = organizacionAEditar.nro_contacto;
+    document.getElementById('email').value = organizacionAEditar.email;
+    document.getElementById('redes').value = organizacionAEditar.redes;
+    document.getElementById('infoAdicional').value = organizacionAEditar.info_adicional;
+    document.getElementById('alojamiento').checked = !!organizacionAEditar.asistencia_alojamiento;
+    document.getElementById('higiene').checked = !!organizacionAEditar.asistencia_higiene;
+    document.getElementById('salud').checked = !!organizacionAEditar.asistencia_salud;
+    document.getElementById('alimentacion').checked = !!organizacionAEditar.asistencia_alimentacion;
+    document.getElementById('recreacion').checked = !!organizacionAEditar.asistencia_recreacion;
+    document.getElementById('mujeresCis').checked = !!organizacionAEditar.genero_mujeres_cis;
+    document.getElementById('varonesCis').checked = !!organizacionAEditar.genero_varones_cis;
+    document.getElementById('lgbtiqPlus').checked = !!organizacionAEditar.genero_lbgtiq;
+    document.getElementById('edades').value = organizacionAEditar.edades;
+    document.getElementById('diasHorarios').value = organizacionAEditar.dias_horarios;
+    document.getElementById('latitud').value = organizacionAEditar.latitud;
+    document.getElementById('longitud').value = organizacionAEditar.longitud;
 
     const btnVolver = document.querySelector('.btn-volver');
 
     btnVolver.addEventListener('click', function() {
+        sessionStorage.removeItem("organizacion-editar");
+        window.location.href = "/src/editor/index.html";
         alert('Estás volviendo.');
     });
 
@@ -90,7 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
             longitud: Number(longitud.value),
         };
 
-        console.log(formData);
+        sessionStorage.removeItem("organizacion-editar");
+        window.location.href = "/src/editor/index.html";
         alert("Está editando el formulario.")
     });
 });
@@ -126,12 +138,12 @@ checkboxContainer.appendChild(label);
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
-        center: { lat: organizacionAValidar.latitud, lng: organizacionAValidar.longitud },
+        center: { lat: organizacionAEditar.latitud, lng: organizacionAEditar.longitud },
         mapTypeControl: false,
     });
     geocoder = new google.maps.Geocoder();
     marker = new google.maps.Marker({
-            position: { lat: organizacionAValidar.latitud, lng: organizacionAValidar.longitud },
+            position: { lat: organizacionAEditar.latitud, lng: organizacionAEditar.longitud },
             map,
     });
 
