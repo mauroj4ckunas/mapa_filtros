@@ -89,7 +89,11 @@ const Organizacion = sequelize.define('Organizacion', {
   },
   info_adicional: {
     type: DataTypes.STRING,
-    allowNull:false
+    allowNull:true
+  },
+  validada: {
+    type: DataTypes.BOOLEAN,
+    allowNull:true
   },
     },{      
       getterMethods:{
@@ -104,7 +108,7 @@ const Organizacion = sequelize.define('Organizacion', {
   });
 
 
-  // ...
+
 
 const obtenerProvinciasUnicas = async () => {
   const provincias = await Organizacion.findAll({
@@ -127,6 +131,33 @@ const obtenerTiposUnicos = async () => {
   return tipos.map((org) => org.dataValues.tipo_organizacion);
 };
 
+
+Organizacion.validadas = async () => {
+  const organizacionesValidadas = await Organizacion.findAll({
+    where: {
+      validada: true,
+    },
+  });
+  return organizacionesValidadas;
+};
+
+Organizacion.noValidadas = async () => {
+  const organizacionesNoValidadas = await Organizacion.findAll({
+    where: {
+      validada: false,
+    },
+  });
+  return organizacionesNoValidadas;
+};
+
+Organizacion.crearOrganizacion = async (datosOrganizacion) => {
+  try {
+    const nuevaOrganizacion = await Organizacion.create(datosOrganizacion);
+    return nuevaOrganizacion;
+  } catch (error) {
+    throw new Error(`Error al crear la organización: ${error.message}`);
+  }
+};
 
 
 // Sincroniza el modelo con la base de datos (crea la tabla si no existe)
