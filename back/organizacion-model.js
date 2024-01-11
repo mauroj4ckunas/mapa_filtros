@@ -132,13 +132,13 @@ const obtenerTiposUnicos = async () => {
 };
 
 
-Organizacion.validadas = async () => {
-  const organizacionesValidadas = await Organizacion.findAll({
+Organizacion.validadas = async (consultaWhere) => {
+  return await Organizacion.findAll({
     where: {
       validada: true,
-    },
+      ...consultaWhere,
+    }
   });
-  return organizacionesValidadas;
 };
 
 Organizacion.noValidadas = async () => {

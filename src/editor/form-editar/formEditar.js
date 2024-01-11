@@ -1,27 +1,3 @@
-// const organizacionAEditar = {
-//     id: 1,
-//     nombre_organizacion: 'Fundación Ayuda',
-//     provincia: 'Buenos Aires',
-//     localidad: 'La Plata',
-//     tipo_organizacion: 'Comunitaria',
-//     direccion: 'Calle Falsa 123',
-//     nro_contacto: '1122334455',
-//     email: 'contacto@fundacionayuda.org',
-//     redes: 'facebook.com/fundacionayuda',
-//     info_adicional: 'Brindamos asistencia a personas en situación de calle.',
-//     asistencia_alojamiento: 1,
-//     asistencia_higiene: 1,
-//     asistencia_salud: 0,
-//     asistencia_alimentacion: 1,
-//     asistencia_recreacion: 0,
-//     genero_mujeres_cis: 1,
-//     genero_varones_cis: 1,
-//     genero_lbgtiq: 0,
-//     edades: 'Todas las edades',
-//     dias_horarios: 'Lunes a Viernes de 9 a 18 hs',
-//     latitud: -34.92145,
-//     longitud: -57.95433,
-// };
 
 const orgJSON = sessionStorage.getItem("organizacion-editar");
 
@@ -49,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('salud').checked = !!organizacionAEditar.asistencia_salud;
     document.getElementById('alimentacion').checked = !!organizacionAEditar.asistencia_alimentacion;
     document.getElementById('recreacion').checked = !!organizacionAEditar.asistencia_recreacion;
+    document.getElementById('recorridas').checked = !!organizacionAEditar.asistencia_recorridas;
     document.getElementById('mujeresCis').checked = !!organizacionAEditar.genero_mujeres_cis;
     document.getElementById('varonesCis').checked = !!organizacionAEditar.genero_varones_cis;
     document.getElementById('lgbtiqPlus').checked = !!organizacionAEditar.genero_lbgtiq;
@@ -92,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             asistencia_salud: document.getElementById('salud').checked ? 1 : 0,
             asistencia_alimentacion: document.getElementById('alimentacion').checked ? 1 : 0,
             asistencia_recreacion: document.getElementById('recreacion').checked ? 1 : 0,
+            asistencia_recorridas: document.getElementById('recorridas').checked ? 1 : 0,
             genero_mujeres_cis: document.getElementById('mujeresCis').checked ? 1 : 0,
             genero_varones_cis: document.getElementById('varonesCis').checked ? 1 : 0,
             genero_lbgtiq: document.getElementById('lgbtiqPlus').checked ? 1 : 0,
@@ -138,12 +116,12 @@ checkboxContainer.appendChild(label);
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 15,
-        center: { lat: organizacionAEditar.latitud, lng: organizacionAEditar.longitud },
+        center: { lat: Number(organizacionAEditar.latitud), lng: Number(organizacionAEditar.longitud) },
         mapTypeControl: false,
     });
     geocoder = new google.maps.Geocoder();
     marker = new google.maps.Marker({
-            position: { lat: organizacionAEditar.latitud, lng: organizacionAEditar.longitud },
+            position: { lat: Number(organizacionAEditar.latitud), lng: Number(organizacionAEditar.longitud) },
             map,
     });
 
@@ -198,8 +176,8 @@ function geocode(request) {
 
         opcionDiv.addEventListener('click', () => {
           opciones.innerHTML = '';
-          map.setCenter(res.geometry.location);
-          marker.setPosition(res.geometry.location);
+          map.setCenter(Number(res.geometry.location));
+          marker.setPosition(Number(res.geometry.location));
           marker.setMap(map);
           map.setZoom(15);
 

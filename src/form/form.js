@@ -1,4 +1,18 @@
 "use strict";
+
+const url_base = 'http://localhost:3000'
+
+const crearRegistro = async (data) => {
+    const res = await fetch(`${url_base}/organizaciones`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+    return await res.json(); 
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Escucha el evento change en el checkbox
@@ -37,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             asistencia_salud: document.getElementById('salud').checked ? 1 : 0,
             asistencia_alimentacion: document.getElementById('alimentacion').checked ? 1 : 0,
             asistencia_recreacion: document.getElementById('recreacion').checked ? 1 : 0,
+            asistencia_recorridas: document.getElementById('recorridas').checked ? 1 : 0,
             genero_mujeres_cis: document.getElementById('mujeresCis').checked ? 1 : 0,
             genero_varones_cis: document.getElementById('varonesCis').checked ? 1 : 0,
             genero_lbgtiq: document.getElementById('lgbtiqPlus').checked ? 1 : 0,
@@ -46,7 +61,15 @@ document.addEventListener('DOMContentLoaded', function() {
             longitud: Number(longitud.value),
         };
 
-        console.log(formData);
+        crearRegistro(formData).then(data => {
+          if ('error' in data) {
+            alert(data.error);
+            return;
+          }
+          alert('Se creó un nuevo registro.');
+          window.location.href = "/src/map/index.html";
+          return;
+        });
     });
 });
 

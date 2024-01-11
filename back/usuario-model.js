@@ -31,6 +31,8 @@ Usuario.prototype.validarPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
+Usuario.prototype.crearUser = async (user) => await Usuario.create(user);
+
 // Sincroniza el modelo con la base de datos (crea la tabla si no existe)
 (async () => {
     await Usuario.sync();

@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 
-const { Organizacion, obtenerProvinciasUnicas, obtenerLocalidadesUnicas, obtenerTiposUnicos } = require('../../../back/organizacion-model');
-const {Usuario} = require('../../../back/usuario-model');
+const { Organizacion, obtenerProvinciasUnicas, obtenerLocalidadesUnicas, obtenerTiposUnicos } = require('../../back/organizacion-model');
+const {Usuario} = require('../../back/usuario-model');
 const bcrypt = require('bcrypt');
 
 
@@ -41,15 +41,14 @@ app.get('/filtrar', async (req, res) => {
   }
 
 
-  const resultados = await Organizacion.findAll(consulta);
+  const resultados = await Organizacion.validadas(consulta.where);
 
   res.json(resultados);
 });
 
 app.get('/organizaciones/validadas', async (req, res) => {
   try {
-    console.log('holasd');
-    const organizacionesValidadas = await Organizacion.validadas();
+    const organizacionesValidadas = await Organizacion.validadas({});
     res.json(organizacionesValidadas);
   } catch (error) {
     console.log(error)
@@ -90,7 +89,7 @@ app.put('/organizaciones/:id/validar', async (req, res) => {
     organizacion.validada = true; // Cambia el estado de validada a true
     await organizacion.save(); // Guarda los cambios en la base de datos
 
-    res.json({ message: 'Estado de validación actualizado correctamente' });
+    res.status(200).json({ message: 'Estado de validación actualizado correctamente' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -105,10 +104,10 @@ app.post('/login', async (req, res) => {
     if (!usuarioEncontrado) {
       return res.status(404).json({ error: 'Nombre de usuario no encontrado' });
     }
-    
+
     const contraseñaValida = bcrypt.compareSync(password, usuarioEncontrado.password);
 
-    if (contraseñaValida) {     
+    if (!!contraseñaValida) {     
       const { id, nombre_usuario } = usuarioEncontrado.toJSON();
       return res.json({ id, nombre_usuario });
     } else {
@@ -118,6 +117,23 @@ app.post('/login', async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
+
+app.post('/login/create', async (req, res) => {
+  const { nombre_usuario, password } = req.body;
+  try {    
+    const usuarioEncontrado = await Usuario.findOne({ where: { nombre_usuario } });
+
+    if (usuarioEncontrado) {
+      return res.status(404).json({ error: 'Usuario no disponible' });
+    }
+
+    const nuevoUser = await Usuario.prototype.crearUser({ "nombre_usuario": nombre_usuario, "password": password });
+    return res.status(201).json({'id': nuevoUser.id, 'usuario': nuevoUser.nombre_usuario});
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 
 
 app.listen(3000, () => {
