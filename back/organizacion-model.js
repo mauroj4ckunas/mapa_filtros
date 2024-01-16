@@ -159,6 +159,21 @@ Organizacion.crearOrganizacion = async (datosOrganizacion) => {
   }
 };
 
+Organizacion.editarOrganizacion = async (idOrganizacion, datosActualizados) => {
+  try {
+    const organizacionExistente = await Organizacion.findByPk(idOrganizacion);
+
+    if (!organizacionExistente) {
+      throw new Error(`No se encontró una organización con la ID ${idOrganizacion}`);
+    }
+    
+    await organizacionExistente.update(datosActualizados);
+    return organizacionExistente;
+  } catch (error) {
+    throw new Error(`Error al editar la organización: ${error.message}`);
+  }
+};
+
 
 // Sincroniza el modelo con la base de datos (crea la tabla si no existe)
 (async () => {

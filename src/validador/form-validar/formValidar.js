@@ -7,6 +7,17 @@ const validarForm = async (id) => {
     return await res.json(); 
 }
 
+const editForm = async (id, data) => {
+  const res = await fetch(`http://localhost:3000/organizaciones/${id}/editar`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application-json'
+    },
+    body: JSON.stringify(data),
+  });
+  return await res.json(); 
+}
+
 const orgJSON = sessionStorage.getItem("organizacion-validar");
 
 if (!orgJSON) {
@@ -90,16 +101,18 @@ document.addEventListener('DOMContentLoaded', function() {
             dias_horarios: document.getElementById('diasHorarios').value,
             latitud: Number(latitud.value),
             longitud: Number(longitud.value),
+            validada: 1,
         };
-        validarForm(organizacionAValidar.id).then(data => {
-          sessionStorage.removeItem("organizacion-validar");
+        
+        editForm(organizacionAValidar.id, formData).then(data => {
           window.location.href = "/src/validador/index.html";
           if ('error' in data) {
             alert(data.error)
             return;
           }
-          alert(data.message)
+          alert("El formulario fue validado")
         })
+        
         return;
     });
 });

@@ -77,6 +77,17 @@ app.post('/organizaciones', async (req, res) => {
   }
 });
 
+app.put('/organizaciones/:id/editar', async (req, res) => {
+  const { id } = req.params; // Obtiene el ID de la URL
+  const nuevaOrganizacion = req.body; // Se espera que los datos estén en el body de la solicitud
+  try {
+    const editOrganizacion = await Organizacion.editarOrganizacion(id, nuevaOrganizacion);
+    res.status(201).json({ message: 'El formulario fue editado' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.put('/organizaciones/:id/validar', async (req, res) => {
   const { id } = req.params; // Obtiene el ID de la URL
   try {

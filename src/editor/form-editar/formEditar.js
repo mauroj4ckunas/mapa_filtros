@@ -1,4 +1,16 @@
 
+
+const editForm = async (id, data) => {
+  const res = await fetch(`http://localhost:3000/organizaciones/${id}/editar`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application-json'
+    },
+    body: JSON.stringify(data),
+  });
+  return await res.json(); 
+}
+
 const orgJSON = sessionStorage.getItem("organizacion-editar");
 
 if (!orgJSON) {
@@ -83,11 +95,18 @@ document.addEventListener('DOMContentLoaded', function() {
             dias_horarios: document.getElementById('diasHorarios').value,
             latitud: Number(latitud.value),
             longitud: Number(longitud.value),
+            validada: 1,
         };
 
-        sessionStorage.removeItem("organizacion-editar");
-        window.location.href = "/src/editor/index.html";
-        alert("Está editando el formulario.")
+        editForm(organizacionAEditar.id, formData).then(data => {
+          sessionStorage.removeItem("organizacion-editar");
+          window.location.href = "/src/editor/index.html";
+          if ('error' in data) {
+            alert(data.error)
+            return;
+          }
+          alert("El formulario fue editado")
+        })
     });
 });
 
