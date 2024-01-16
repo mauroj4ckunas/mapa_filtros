@@ -1,4 +1,4 @@
-const url_base = 'http://localhost:3000'
+import { url_base } from "../../env";
 
 const obtenerOrganizacionesNoValidadas = async () => {
     const res = await fetch(`${url_base}/organizaciones/no-validadas`);

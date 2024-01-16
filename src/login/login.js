@@ -1,4 +1,4 @@
-const url_base = 'http://localhost:3000'
+import { url_base } from "../../env";
 
 const login = async (credenciales) => {
     const res = await fetch(`${url_base}/login`, {

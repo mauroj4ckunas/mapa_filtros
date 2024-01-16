@@ -1,6 +1,5 @@
-"use strict";
+import { url_base } from "../../env";
 
-const url_base = 'http://localhost:3000'
 
 const crearRegistro = async (data) => {
     const res = await fetch(`${url_base}/organizaciones`, {
@@ -59,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dias_horarios: document.getElementById('diasHorarios').value,
             latitud: Number(latitud.value),
             longitud: Number(longitud.value),
+            validada: 0,
         };
 
         crearRegistro(formData).then(data => {

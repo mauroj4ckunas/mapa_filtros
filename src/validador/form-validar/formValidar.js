@@ -1,5 +1,4 @@
-
-const url_base = 'http://localhost:3000'
+import { url_base } from "../../../env";
 
 const validarForm = async (id) => {
     const res = await fetch(`${url_base}/organizaciones/${id}/validar`, {
