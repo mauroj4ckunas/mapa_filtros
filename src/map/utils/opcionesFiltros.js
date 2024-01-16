@@ -1,9 +1,8 @@
 
 
-const entorno = 'http://localhost:3000';
 
 export const opcionesFiltros = () => {
-    const url = `${entorno}/opciones-filtros`;
+    const url = `http://localhost:3000/opciones-filtros`;
     return fetch(url, {
         'method': 'GET',
     })

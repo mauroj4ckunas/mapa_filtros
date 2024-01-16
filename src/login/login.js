@@ -1,7 +1,7 @@
-import { url_base } from "../../env";
+
 
 const login = async (credenciales) => {
-    const res = await fetch(`${url_base}/login`, {
+    const res = await fetch(`http://localhost:3000/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

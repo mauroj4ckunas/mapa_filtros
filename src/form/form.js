@@ -1,8 +1,7 @@
-import { url_base } from "../../env";
 
 
 const crearRegistro = async (data) => {
-    const res = await fetch(`${url_base}/organizaciones`, {
+    const res = await fetch(`http://localhost:3000/organizaciones`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,10 +33,16 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
         }
 
+        const prov = document.getElementById('provincia').value;
+        if (prov === 'none') {
+          alert("Debe seleccionar una provincia.");
+          return;
+        }
+
         // Crear un objeto para almacenar los datos del formulario
         const formData = {
             nombre_organizacion: document.getElementById('nombreOrganizacion').value,
-            provincia: document.getElementById('provincia').value,
+            provincia: prov,
             localidad: document.getElementById('localidad').value,
             tipo_organizacion: document.getElementById('tipoOrganizacion').value,
             direccion: document.getElementById('direccion').value,

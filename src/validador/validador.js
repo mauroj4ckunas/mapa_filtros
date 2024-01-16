@@ -1,7 +1,7 @@
-import { url_base } from "../../env";
+
 
 const obtenerOrganizacionesNoValidadas = async () => {
-    const res = await fetch(`${url_base}/organizaciones/no-validadas`);
+    const res = await fetch(`http://localhost:3000/organizaciones/no-validadas`);
     if (res.ok) {
         return await res.json();;
     }

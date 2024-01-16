@@ -1,8 +1,8 @@
 
-const entorno = 'http://localhost:3000';
+
 
 export const allOrganizaciones = () => {
-    const url = `${entorno}/filtrar`;
+    const url = `http://localhost:3000/filtrar`;
     return fetch(url, {
         'method': 'GET',
     })

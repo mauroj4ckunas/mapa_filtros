@@ -1,7 +1,7 @@
-import { url_base } from "../../env";
+
 
 const obtenerOrganizacionesValidadas = async () => {
-    const res = await fetch(`${url_base}/organizaciones/validadas`);
+    const res = await fetch(`http://localhost:3000/organizaciones/validadas`);
     if (res.ok) {
         return await res.json();;
     }
