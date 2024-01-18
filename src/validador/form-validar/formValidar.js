@@ -1,14 +1,14 @@
 
 
 const validarForm = async (id) => {
-    const res = await fetch(`http://localhost:3000/organizaciones/${id}/validar`, {
+    const res = await fetch(`http://191.101.71.110:3000/organizaciones/${id}/validar`, {
       method: 'PUT'
     });
     return await res.json(); 
 }
 
 const editForm = async (id, data) => {
-  const res = await fetch(`http://localhost:3000/organizaciones/${id}/editar`, {
+  const res = await fetch(`http://191.101.71.110:3000/organizaciones/${id}/editar`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application-json'

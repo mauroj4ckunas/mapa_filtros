@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
     a.classList.add("text-decoration-none");
 
     if (usuario) {
-        a.href = "/src/admin/index.html";
+        a.href = "mapa_obs/src/admin/index.html";
         a.textContent = "Registros";
     } else {
-        a.href = "/src/login/index.html";
+        a.href = "mapa_obs/src/login/index.html";
         a.textContent = "Iniciar Sesión";
     }
 

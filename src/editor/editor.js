@@ -1,7 +1,7 @@
 
 
 const obtenerOrganizacionesValidadas = async () => {
-    const res = await fetch(`http://localhost:3000/organizaciones/validadas`);
+    const res = await fetch(`http://191.101.71.110:3000/organizaciones/validadas`);
     if (res.ok) {
         return await res.json();;
     }

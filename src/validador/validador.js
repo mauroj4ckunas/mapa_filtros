@@ -1,7 +1,7 @@
 
 
 const obtenerOrganizacionesNoValidadas = async () => {
-    const res = await fetch(`http://localhost:3000/organizaciones/no-validadas`);
+    const res = await fetch(`http://191.101.71.110:3000/organizaciones/no-validadas`);
     if (res.ok) {
         return await res.json();;
     }

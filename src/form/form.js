@@ -1,7 +1,7 @@
 
 
 const crearRegistro = async (data) => {
-    const res = await fetch(`http://localhost:3000/organizaciones`, {
+    const res = await fetch(`http://191.101.71.110:3000/organizaciones`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
           }
           alert('Se creó un nuevo registro.');
-          window.location.href = "/src/map/index.html";
+          window.location.href = "mapa_obs/src/map/index.html";
           return;
         });
     });

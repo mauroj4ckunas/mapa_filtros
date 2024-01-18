@@ -1,7 +1,7 @@
 
 
 export const filOrganizaciones = (provincia = "", localidad = "", tipo_organizacion = "") => {
-    const url = `http://localhost:3000/filtrar?provincia=${provincia}&localidad=${localidad}&tipoOrganizacion=${tipo_organizacion}`;
+    const url = `http://191.101.71.110:3000/filtrar?provincia=${provincia}&localidad=${localidad}&tipoOrganizacion=${tipo_organizacion}`;
     return fetch(url, {
         'method': 'GET',
     })

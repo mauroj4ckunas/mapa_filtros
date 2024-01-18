@@ -2,7 +2,7 @@
 
 
 export const allOrganizaciones = () => {
-    const url = `http://localhost:3000/filtrar`;
+    const url = `http://191.101.71.110:3000/filtrar`;
     return fetch(url, {
         'method': 'GET',
     })
