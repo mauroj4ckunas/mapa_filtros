@@ -129,6 +129,9 @@
             <div class="form-group">
                 <label for="redes">Redes Sociales <span style="color: rgb(175, 172, 172)">(escribir la url de la red social)</span></label></label> 
                 <input required type="url" pattern="https?://.*" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
+                <div class="">
+                    <input type="checkbox" name="" id="sinRedes" /> <label for="sinRedes"> No posee redes</label>
+                </div>
             </div>
 
             <!-- Información Adicional -->
@@ -246,12 +249,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="../registro-login.js"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFzJndVUbWJ5K4Q5XqQXVYo-sfPSHWkMo&callback=initMap&v=weekly"
         defer
     ></script>
-    <script type="module" src="../env.js"></script>
-    <script src="../registro-login.js"></script>
-    <script type="module" src="./form.js"></script>
+    <script src="./form.js"></script>
 </body>
 </html>

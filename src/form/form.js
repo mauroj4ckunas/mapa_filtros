@@ -22,6 +22,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    let redes = "";
+    const redesInput = document.getElementById('redes');
+    redesInput.value = "https://";
+    redesInput.addEventListener('input', function() {
+        if (!redesInput.value.startsWith("https://")) {
+            redesInput.value = "https://";
+            redes = "";
+            return;
+        } 
+        if (redesInput.value !== "https://") {
+          redes = redesInput.value;
+        }
+    });
+
+    document.getElementById('sinRedes').addEventListener('change', function() {
+        redesInput.disabled = this.checked; // Deshabilita si el checkbox está marcado
+        if (this.checked) {
+          redesInput.value = 'https://'; // Limpia el valor si está deshabilitado
+          redes = "";
+        }
+    });
+
     document.getElementById('formRegistro').addEventListener('submit', function(event) {
         event.preventDefault(); // Previene el envío normal del formulario
 
@@ -48,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             direccion: document.getElementById('direccion').value,
             nro_contacto: document.getElementById('numeroContacto').value,
             email: document.getElementById('email').value,
-            redes: document.getElementById('redes').value,
+            redes: redes,
             info_adicional: document.getElementById('infoAdicional').value,
             asistencia_alojamiento: document.getElementById('alojamiento').checked ? 1 : 0,
             asistencia_higiene: document.getElementById('higiene').checked ? 1 : 0,

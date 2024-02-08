@@ -127,8 +127,11 @@
 
             <!-- Redes Sociales -->
             <div class="form-group">
-                <label for="redes">Redes Sociales</label>
-                <input required  type="text" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
+                <label for="redes">Redes Sociales <span style="color: rgb(175, 172, 172)">(escribir la url de la red social)</span></label></label> 
+                <input required type="url" pattern="https?://.*" class="form-control" id="redes" placeholder="Ingrese las redes sociales">
+                <div class="">
+                    <input type="checkbox" name="" id="sinRedes" /> <label for="sinRedes"> No posee redes</label>
+                </div>
             </div>
 
             <!-- Información Adicional -->
@@ -249,7 +252,6 @@
     ></script>
     <script src="../../validar-log.js"></script>
     <script src="../../registro-login.js"></script>
-    <script type="module" src="../../../env.js"></script>
     <script src="./formEditar.js"></script>
 </body>
 </html>
