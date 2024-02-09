@@ -1,7 +1,7 @@
 
 
 const editForm = async (id, data) => {
-  const res = await fetch(`http://localhost:3000/organizaciones/${id}/editar`, {
+  const res = await fetch(`http://localhost:3001/organizaciones/${id}/editar`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application-json'
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
             direccion: document.getElementById('direccion').value,
             nro_contacto: document.getElementById('numeroContacto').value,
             email: document.getElementById('email').value,
-            redes: redes,
+            redes: redes === "" ? null : redes,
             info_adicional: document.getElementById('infoAdicional').value,
             asistencia_alojamiento: document.getElementById('alojamiento').checked ? 1 : 0,
             asistencia_higiene: document.getElementById('higiene').checked ? 1 : 0,
