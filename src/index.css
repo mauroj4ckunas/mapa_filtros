@@ -12,38 +12,36 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333; /* Cambié el color de fondo a un tono más oscuro */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Agregué sombra en la parte inferior */
+    background-color: #333;
 }
   
   /* Estilos para los enlaces en el nav */
-nav a {
+#paginas a {
     text-decoration: none;
-    color: white;
     font-family: 'Georgia', sans-serif;
-    padding: 10px;
     border-radius: 3px;
     transition: background-color 0.3s, color 0.3s;
-}
-  
-  /* Estilos para los enlaces dentro del div en el nav */
-nav div a {
+    padding: 7px;
     font-weight: bold;
     text-shadow: 0 0 #0000;
+    color: white
 }
   
   /* Cambié el hover para los enlaces dentro del div en el nav */
-nav div a:hover {
+#paginas a:hover {
     background-color: #777; /* Cambié el color de fondo al pasar el mouse */
     color: black;
     box-shadow: 0 0 #0000;
 }
-  
+
   /* Estilos para el enlace especial (pag-of) en el nav */
 #pag-of {
     font-weight: bold;
     background-color: black;
     box-shadow: -2px 2px 2px rgba(0, 0, 0, 0.2), 2px 2px 2px rgba(0, 0, 0, 0.2);
+    padding: 7px;
+    border-radius: 2px;
+    color: white;
 }
   
   /* Cambié el hover para el enlace especial (pag-of) en el nav */
@@ -51,6 +49,7 @@ nav div a:hover {
     background-color: rgb(86, 103, 124);
     color: black;
     box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #titulo {
@@ -63,4 +62,34 @@ nav div a:hover {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  nav {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+    padding: 10px 0 0 0; /* Añade algo de padding para espaciar los elementos */
+  }
+
+  #titulo, #paginas {
+    width: 100%; /* Hace que tomen todo el ancho disponible */
+    margin-left: 0; /* Elimina el margen izquierdo para alinear con el borde */
+    display: flex;
+    justify-content: center; /* Centra los elementos en el nav */
+    align-items: center;
+  }
+  
+  #pag-of {
+    padding: 10px;
+  }
+
+
+  #paginas a {
+    margin: 10px 5px; /* Añade un poco de margen entre los enlaces para separarlos */
+    background-color: #242424;
+    height: 100%;
+  }
 }

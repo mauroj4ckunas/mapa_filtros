@@ -18,8 +18,23 @@
     width: 30%;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+    background-color: rgba(255, 255, 255, 0.3);
     padding: 10px;
-    z-index: 1000; /* Asegura que se muestre por encima de otros elementos */
+    z-index: 1000;
     border-radius: 6px 0 0 0;
+}
+
+@media screen and (max-width: 600px) {
+    #product-dev {
+        position: fixed;
+        text-align: center;
+        font-size: small;
+        width: 70%;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.3);
+        padding: 10px;
+        z-index: 1000;
+        border-radius: 6px 0 0 0;
+    }
 }

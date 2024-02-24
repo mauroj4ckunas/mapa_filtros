@@ -9,3 +9,13 @@
     height: 15px;
     margin-right: 10px;
 }
+
+.btn-login {
+    width: 30%;
+}
+
+@media screen and (max-width: 600px) {
+    .btn-login {
+        width: 70%;
+    }
+}

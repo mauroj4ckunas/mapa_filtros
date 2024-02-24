@@ -1,0 +1,10 @@
+@media screen and (max-width: 600px) {
+    #container-btn {
+        display: flex;
+        flex-direction: column;
+    }
+    .btn-validate, .btn-edit {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
